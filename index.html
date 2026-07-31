@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نات پرستاری | Nat Nursing</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   CSS RESET & VARIABLES
+   ═══════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-primary:#0a0e27;
+  --bg-secondary:#111640;
+  --bg-card:rgba(255,255,255,0.06);
+  --bg-card-hover:rgba(255,255,255,0.10);
+  --bg-glass:rgba(255,255,255,0.08);
+  --border-glass:rgba(255,255,255,0.12);
+  --text-primary:#e8eaf6;
+  --text-secondary:#9fa8da;
+  --text-muted:#5c6bc0;
+  --accent:#7c4dff;
+  --accent-light:#b388ff;
+  --accent-dark:#651fff;
+  --success:#00e676;
+  --warning:#ffc400;
+  --danger:#ff5252;
+  --info:#40c4ff;
+  --sidebar-width:260px;
+  --sidebar-collapsed:70px;
+  --header-height:60px;
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow:0 8px 32px rgba(0,0,0,0.3);
+  --transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Vazirmatn',sans-serif;
+  background:linear-gradient(135deg,var(--bg-primary) 0%,#1a1a4e 50%,#0d1137 100%);
+  color:var(--text-primary);
+  min-height:100vh;
+  overflow-x:hidden;
+  direction:rtl;
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit;border:none;outline:none}
+input,textarea,select{font-family:inherit;outline:none}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+::selection{background:var(--accent);color:#fff}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR
+   ═══════════════════════════════════════════ */
+.sidebar{
+  position:fixed;top:0;right:0;
+  width:var(--sidebar-width);height:100vh;
+  background:rgba(10,14,39,0.95);
+  backdrop-filter:blur(20px);
+  border-left:1px solid var(--border-glass);
+  z-index:1000;
+  display:flex;flex-direction:column;
+  transition:var(--transition);
+  overflow-y:auto;
+}
+.sidebar-logo{
+  padding:20px;text-align:center;
+  border-bottom:1px solid var(--border-glass);
+}
+.sidebar-logo h1{
+  font-size:1.4rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent-light),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.sidebar-logo p{font-size:0.75rem;color:var(--text-muted);margin-top:4px}
+.sidebar-nav{flex:1;padding:12px 0}
+.nav-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 20px;margin:2px 8px;
+  border-radius:var(--radius-sm);
+  color:var(--text-secondary);
+  transition:var(--transition);
+  cursor:pointer;font-size:0.95rem;font-weight:500;
+}
+.nav-item:hover{background:var(--bg-card);color:var(--text-primary)}
+.nav-item.active{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;box-shadow:0 4px 15px rgba(124,77,255,0.4);
+}
+.nav-item .icon{font-size:1.2rem;width:28px;text-align:center}
+.sidebar-footer{
+  padding:16px 20px;
+  border-top:1px solid var(--border-glass);
+  font-size:0.75rem;color:var(--text-muted);text-align:center;
+}
+
+/* ═══════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════ */
+.main-content{
+  margin-right:var(--sidebar-width);
+  min-height:100vh;
+  padding:24px 32px;
+  transition:var(--transition);
+}
+.page{display:none;animation:fadeIn 0.4s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════════
+   GLASS CARD
+   ═══════════════════════════════════════════ */
+.glass-card{
+  background:var(--bg-glass);
+  backdrop-filter:blur(12px);
+  border:1px solid var(--border-glass);
+  border-radius:var(--radius);
+  padding:24px;
+  transition:var(--transition);
+}
+.glass-card:hover{
+  background:var(--bg-card-hover);
+  border-color:rgba(255,255,255,0.18);
+  transform:translateY(-2px);
+  box-shadow:var(--shadow);
+}
+
+/* ═══════════════════════════════════════════
+   COMMON COMPONENTS
+   ═══════════════════════════════════════════ */
+.page-title{
+  font-size:1.8rem;font-weight:800;margin-bottom:24px;
+  background:linear-gradient(135deg,var(--text-primary),var(--accent-light));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.section-title{font-size:1.1rem;font-weight:700;margin-bottom:14px;color:var(--text-primary)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 22px;border-radius:var(--radius-sm);
+  font-weight:600;font-size:0.9rem;
+  transition:var(--transition);
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;
+}
+.btn-primary:hover{box-shadow:0 4px 20px rgba(124,77,255,0.5);transform:translateY(-1px)}
+.btn-secondary{background:var(--bg-card);color:var(--text-primary);border:1px solid var(--border-glass)}
+.btn-secondary:hover{background:var(--bg-card-hover)}
+.btn-success{background:linear-gradient(135deg,#00c853,#00e676);color:#000}
+.btn-warning{background:linear-gradient(135deg,#ff8f00,#ffc400);color:#000}
+.btn-danger{background:linear-gradient(135deg,#d50000,#ff5252);color:#fff}
+.btn-sm{padding:6px 14px;font-size:0.8rem;border-radius:8px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:0.85rem;font-weight:600;color:var(--text-secondary);margin-bottom:6px}
+.form-input{
+  width:100%;padding:12px 16px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border-glass);
+  border-radius:var(--radius-sm);
+  color:var(--text-primary);font-size:0.95rem;
+  transition:var(--transition);
+}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,77,255,0.2)}
+textarea.form-input{resize:vertical;min-height:80px}
+select.form-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239fa8da' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center}
+.badge{
+  display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:600;
+}
+.badge-purple{background:rgba(124,77,255,0.2);color:var(--accent-light)}
+.badge-green{background:rgba(0,230,118,0.2);color:var(--success)}
+.badge-red{background:rgba(255,82,82,0.2);color:var(--danger)}
+.badge-blue{background:rgba(64,196,255,0.2);color:var(--info)}
+.badge-yellow{background:rgba(255,196,0,0.2);color:var(--warning)}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat-card{text-align:center;padding:20px}
+.stat-card .stat-icon{font-size:2rem;margin-bottom:8px}
+.stat-card .stat-value{font-size:1.6rem;font-weight:800;color:var(--accent-light)}
+.stat-card .stat-label{font-size:0.8rem;color:var(--text-muted);margin-top:4px}
+.progress-bar{
+  width:100%;height:10px;background:rgba(255,255,255,0.08);
+  border-radius:5px;overflow:hidden;
+}
+.progress-bar .fill{
+  height:100%;border-radius:5px;
+  background:linear-gradient(90deg,var(--accent-dark),var(--accent-light));
+  transition:width 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.tab{
+  padding:8px 18px;border-radius:var(--radius-sm);
+  font-size:0.85rem;font-weight:600;
+  background:var(--bg-card);color:var(--text-secondary);
+  cursor:pointer;transition:var(--transition);
+  border:1px solid transparent;
+}
+.tab:hover{color:var(--text-primary);background:var(--bg-card-hover)}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(4px);z-index:2000;
+  display:none;align-items:center;justify-content:center;
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:var(--bg-secondary);border:1px solid var(--border-glass);
+  border-radius:var(--radius);padding:28px;width:90%;max-width:520px;
+  max-height:85vh;overflow-y:auto;animation:fadeIn 0.3s ease;
+}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.modal-header h3{font-size:1.1rem;font-weight:700}
+.modal-close{background:none;color:var(--text-muted);font-size:1.4rem;padding:4px}
+.modal-close:hover{color:var(--danger)}
+
+/* ═══════════════════════════════════════════
+   MOBILE MENU
+   ═══════════════════════════════════════════ */
+.mobile-header{
+  display:none;position:fixed;top:0;left:0;right:0;
+  height:var(--header-height);
+  background:rgba(10,14,39,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border-glass);
+  z-index:999;padding:0 16px;
+  align-items:center;justify-content:space-between;
+}
+.mobile-menu-btn{background:none;color:var(--text-primary);font-size:1.4rem;padding:8px}
+.sidebar-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.5);z-index:999;
+}
+
+/* ═══════════════════════════════════════════
+   PAGE: DASHBOARD
+   ═══════════════════════════════════════════ */
+.welcome-banner{
+  background:linear-gradient(135deg,var(--accent-dark),#1a237e);
+  border-radius:var(--radius);padding:32px;
+  margin-bottom:24px;position:relative;overflow:hidden;
+}
+.welcome-banner::after{
+  content:'';position:absolute;top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle,rgba(255,255,255,0.05) 0%,transparent 60%);
+  animation:shimmer 6s ease-in-out infinite;
+}
+@keyframes shimmer{0%,100%{transform:translate(0,0)}50%{transform:translate(20%,10%)}}
+.welcome-banner h2{font-size:1.5rem;font-weight:700;margin-bottom:6px;position:relative;z-index:1}
+.welcome-banner p{color:var(--text-secondary);font-size:0.95rem;position:relative;z-index:1}
+.daily-card{border-top:3px solid var(--accent);margin-bottom:16px}
+.daily-card h3{font-size:1rem;font-weight:700;color:var(--accent-light);margin-bottom:10px}
+.daily-card p{font-size:0.9rem;color:var(--text-secondary);line-height:1.7}
+.quick-actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:16px}
+.quick-action-btn{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:16px 12px;background:var(--bg-card);
+  border:1px solid var(--border-glass);border-radius:var(--radius-sm);
+  color:var(--text-secondary);font-size:0.8rem;font-weight:600;
+  transition:var(--transition);cursor:pointer;
+}
+.quick-action-btn:hover{
+  background:var(--bg-card-hover);color:var(--accent-light);
+  border-color:var(--accent);transform:translateY(-2px);
+}
+.quick-action-btn .qa-icon{font-size:1.6rem}
+
+/* ═══════════════════════════════════════════
+   PAGE: FLASHCARDS
+   ═══════════════════════════════════════════ */
+.flashcard-container{perspective:1200px;margin:20px auto;max-width:500px}
+.flashcard{
+  position:relative;width:100%;min-height:280px;
+  cursor:pointer;transform-style:preserve-3d;
+  transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.flashcard.flipped{transform:rotateY(180deg)}
+.flashcard-front,.flashcard-back{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:32px;border-radius:var(--radius);
+  backface-visibility:hidden;
+  background:var(--bg-glass);border:1px solid var(--border-glass);
+}
+.flashcard-back{transform:rotateY(180deg)}
+.flashcard-front h3{font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:12px}
+.flashcard-front p{color:var(--text-secondary);font-size:0.9rem}
+.flashcard-back h3{font-size:1.2rem;font-weight:700;color:var(--accent-light);text-align:center;margin-bottom:12px}
+.flashcard-back p{color:var(--text-secondary);font-size:0.9rem;text-align:center;line-height:1.7}
+.flashcard-category{
+  position:absolute;top:12px;right:12px;
+  padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;
+  background:rgba(124,77,255,0.2);color:var(--accent-light);
+}
+.flashcard-progress{
+  text-align:center;color:var(--text-muted);
+  font-size:0.85rem;margin-top:12px;
+}
+.sr-buttons{display:flex;gap:10px;justify-content:center;margin-top:16px}
+.sr-btn{
+  padding:10px 24px;border-radius:var(--radius-sm);
+  font-weight:600;font-size:0.85rem;transition:var(--transition);
+}
+.sr-easy{background:rgba(0,230,118,0.15);color:var(--success);border:1px solid rgba(0,230,118,0.3)}
+.sr-good{background:rgba(64,196,255,0.15);color:var(--info);border:1px solid rgba(64,196,255,0.3)}
+.sr-hard{background:rgba(255,82,82,0.15);color:var(--danger);border:1px solid rgba(255,82,82,0.3)}
+.sr-easy:hover{background:rgba(0,230,118,0.3)}
+.sr-good:hover{background:rgba(64,196,255,0.3)}
+.sr-hard:hover{background:rgba(255,82,82,0.3)}
+.fc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.fc-stat{
+  text-align:center;padding:14px;
+  background:var(--bg-card);border-radius:var(--radius-sm);
+}
+.fc-stat .val{font-size:1.4rem;font-weight:800;color:var(--accent-light)}
+.fc-stat .lbl{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
+
+/* ═══════════════════════════════════════════
+   PAGE: STUDY SCHEDULE
+   ═══════════════════════════════════════════ */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:24px}
+.week-day{
+  background:var(--bg-card);border:1px solid var(--border-glass);
+  border-radius:var(--radius-sm);padding:12px;min-height:120px;
+}
+.week-day.today{border-color:var(--accent);box-shadow:0 0 0 2px rgba(124,77,255,0.2)}
+.week-day-name{font-size:0.75rem;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-align:center}
+.week-day-num{font-size:1.1rem;font-weight:800;text-align:center;margin-bottom:8px;color:var(--text-primary)}
+.session-block{
+  padding:6px 8px;border-radius:6px;
+  font-size:0.7rem;font-weight:600;margin-bottom:4px;
+  color:#fff;cursor:pointer;
+}
+.session-block.pharma{background:rgba(124,77,255,0.7)}
+.session-block.anat{background:rgba(0,230,118,0.7)}
+.session-block.medsurg{background:rgba(64,196,255,0.7)}
+.session-block.nclex{background:rgba(255,196,0,0.7)}
+.session-block.patho{background:rgba(255,82,82,0.7)}
+.pomodoro-section{text-align:center;padding:40px}
+.pomodoro-timer{
+  font-size:4rem;font-weight:800;
+  font-variant-numeric:tabular-nums;
+  color:var(--accent-light);margin:20px 0;
+}
+.pomodoro-label{
+  font-size:0.9rem;color:var(--text-muted);margin-bottom:8px;
+}
+.pomodoro-controls{display:flex;gap:12px;justify-content:center;margin-top:16px}
+.goals-list{list-style:none}
+.goals-list li{
+  padding:12px 16px;border-radius:var(--radius-sm);
+  background:var(--bg-card);border:1px solid var(--border-glass);
+  margin-bottom:8px;display:flex;align-items:center;gap:12px;
+  font-size:0.9rem;
+}
+.goals-list li .check{
+  width:22px;height:22px;border-radius:50%;
+  border:2px solid var(--text-muted);display:flex;
+  align-items:center;justify-content:center;
+  cursor:pointer;transition:var(--transition);flex-shrink:0;
+}
+.goals-list li.done .check{
+  background:var(--success);border-color:var(--success);
+}
+.goals-list li.done{color:var(--text-muted);text-decoration:line-through}
+
+/* ═══════════════════════════════════════════
+   PAGE: CLINICAL ASSISTANT
+   ═══════════════════════════════════════════ */
+.clinical-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.clinical-tab{
+  padding:8px 16px;border-radius:var(--radius-sm);
+  font-size:0.8rem;font-weight:600;
+  background:var(--bg-card);color:var(--text-secondary);
+  cursor:pointer;transition:var(--transition);border:1px solid transparent;
+}
+.clinical-tab.active{background:var(--accent);color:#fff}
+.clinical-panel{display:none;animation:fadeIn 0.3s ease}
+.clinical-panel.active{display:block}
+.sbar-field{margin-bottom:14px}
+.sbar-field h4{
+  font-size:0.9rem;font-weight:700;margin-bottom:6px;
+  display:flex;align-items:center;gap:6px;
+}
+.sbar-field h4 .letter{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;font-size:0.75rem;
+}
+.sbar-field.s h4 .letter{background:rgba(64,196,255,0.2);color:var(--info)}
+.sbar-field.b h4 .letter{background:rgba(124,77,255,0.2);color:var(--accent-light)}
+.sbar-field.a h4 .letter{background:rgba(255,196,0,0.2);color:var(--warning)}
+.sbar-field.r h4 .letter{background:rgba(0,230,118,0.2);color:var(--success)}
+.reference-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.reference-table th{
+  background:rgba(124,77,255,0.15);padding:10px 14px;
+  text-align:right;font-weight:700;color:var(--accent-light);
+  border-bottom:1px solid var(--border-glass);
+}
+.reference-table td{
+  padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);
+  color:var(--text-secondary);
+}
+.reference-table tr:hover td{background:rgba(255,255,255,0.03)}
+
+/* ═══════════════════════════════════════════
+   PAGE: DRUG REFERENCE
+   ═══════════════════════════════════════════ */
+.drug-card{
+  border-right:3px solid var(--accent);margin-bottom:14px;
+  padding:18px !important;
+}
+.drug-card h4{font-size:1rem;font-weight:700;margin-bottom:8px;color:var(--accent-light)}
+.drug-info{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.drug-info-item{font-size:0.8rem}
+.drug-info-item .label{color:var(--text-muted);font-weight:600;margin-bottom:2px}
+.drug-info-item .value{color:var(--text-secondary)}
+
+/* ═══════════════════════════════════════════
+   PAGE: NCLEX PRACTICE
+   ═══════════════════════════════════════════ */
+.nclex-question{margin-bottom:20px}
+.nclex-question h4{font-size:1rem;font-weight:600;line-height:1.7;margin-bottom:14px}
+.nclex-options{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.nclex-option{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border-radius:var(--radius-sm);
+  background:var(--bg-card);border:1px solid var(--border-glass);
+  cursor:pointer;transition:var(--transition);font-size:0.9rem;
+}
+.nclex-option:hover{background:var(--bg-card-hover);border-color:rgba(255,255,255,0.2)}
+.nclex-option.selected{border-color:var(--accent);background:rgba(124,77,255,0.15)}
+.nclex-option.correct{border-color:var(--success);background:rgba(0,230,118,0.15);color:var(--success)}
+.nclex-option.wrong{border-color:var(--danger);background:rgba(255,82,82,0.15);color:var(--danger)}
+.nclex-option .opt-letter{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.06);font-weight:700;font-size:0.8rem;flex-shrink:0;
+}
+.nclex-rationale{
+  padding:14px;border-radius:var(--radius-sm);
+  background:rgba(64,196,255,0.08);border:1px solid rgba(64,196,255,0.2);
+  font-size:0.85rem;color:var(--text-secondary);line-height:1.7;
+  display:none;
+}
+.nclex-rationale.show{display:block;animation:fadeIn 0.3s ease}
+.nclex-score{
+  text-align:center;padding:24px;margin-bottom:24px;
+}
+.nclex-score .score-num{font-size:3rem;font-weight:800;color:var(--accent-light)}
+.nclex-score .score-label{color:var(--text-muted);font-size:0.9rem}
+
+/* ═══════════════════════════════════════════
+   PAGE: RESOURCES
+   ═══════════════════════════════════════════ */
+.resource-card{
+  border-right:3px solid var(--accent);margin-bottom:12px;padding:16px !important;
+}
+.resource-card h4{font-size:0.95rem;font-weight:700;margin-bottom:6px}
+.resource-card p{font-size:0.8rem;color:var(--text-muted);margin-bottom:8px}
+.resource-card a{
+  color:var(--accent-light);font-size:0.85rem;font-weight:600;
+}
+.resource-card a:hover{text-decoration:underline}
+.emergency-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.emergency-item{
+  padding:16px;border-radius:var(--radius-sm);
+  background:rgba(255,82,82,0.08);border:1px solid rgba(255,82,82,0.2);
+  text-align:center;
+}
+.emergency-item .e-icon{font-size:1.5rem;margin-bottom:6px}
+.emergency-item .e-name{font-size:0.85rem;font-weight:700;color:var(--danger)}
+.emergency-item .e-num{font-size:1.1rem;font-weight:800;color:var(--text-primary);margin-top:4px}
+.tip-card{border-right:3px solid var(--success);padding:16px !important;margin-bottom:12px}
+.tip-card h4{font-size:0.95rem;font-weight:700;color:var(--success);margin-bottom:6px}
+.tip-card p{font-size:0.85rem;color:var(--text-secondary);line-height:1.7}
+
+/* ═══════════════════════════════════════════
+   PAGE: CHATBOT
+   ═══════════════════════════════════════════ */
+.chat-container{
+  display:flex;flex-direction:column;
+  height:calc(100vh - 120px);
+  background:var(--bg-card);border:1px solid var(--border-glass);
+  border-radius:var(--radius);overflow:hidden;
+}
+.chat-header{
+  padding:14px 20px;border-bottom:1px solid var(--border-glass);
+  display:flex;align-items:center;gap:12px;
+  background:rgba(124,77,255,0.08);
+}
+.chat-header .avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+}
+.chat-header .info h3{font-size:0.95rem;font-weight:700}
+.chat-header .info p{font-size:0.75rem;color:var(--success)}
+.chat-messages{
+  flex:1;overflow-y:auto;padding:20px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.chat-msg{
+  max-width:75%;padding:12px 16px;
+  border-radius:16px;font-size:0.9rem;line-height:1.7;
+  animation:msgIn 0.3s ease;
+}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.chat-msg.bot{
+  align-self:flex-start;
+  background:var(--bg-card-hover);border:1px solid var(--border-glass);
+  border-bottom-right-radius:4px;color:var(--text-primary);
+}
+.chat-msg.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  border-bottom-left-radius:4px;color:#fff;
+}
+.typing-indicator{
+  display:none;align-self:flex-start;
+  padding:12px 20px;border-radius:16px;
+  background:var(--bg-card-hover);border:1px solid var(--border-glass);
+}
+.typing-indicator.show{display:flex}
+.typing-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--text-muted);margin:0 3px;
+  animation:typingBounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2){animation-delay:0.2s}
+.typing-dot:nth-child(3){animation-delay:0.4s}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.chat-quick-btns{
+  display:flex;gap:6px;padding:8px 20px;
+  overflow-x:auto;border-top:1px solid var(--border-glass);
+  background:rgba(0,0,0,0.1);
+}
+.chat-quick-btn{
+  padding:6px 14px;border-radius:20px;font-size:0.75rem;
+  font-weight:600;background:rgba(124,77,255,0.15);
+  color:var(--accent-light);white-space:nowrap;
+  border:1px solid rgba(124,77,255,0.2);transition:var(--transition);
+}
+.chat-quick-btn:hover{background:rgba(124,77,255,0.3)}
+.chat-input-area{
+  padding:12px 16px;border-top:1px solid var(--border-glass);
+  display:flex;gap:10px;align-items:center;background:rgba(0,0,0,0.15);
+}
+.chat-input{
+  flex:1;padding:12px 18px;border-radius:24px;
+  background:rgba(255,255,255,0.06);border:1px solid var(--border-glass);
+  color:var(--text-primary);font-size:0.9rem;
+}
+.chat-input:focus{border-color:var(--accent)}
+.chat-send{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;transition:var(--transition);
+}
+.chat-send:hover{box-shadow:0 4px 15px rgba(124,77,255,0.5);transform:scale(1.05)}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media(max-width:1024px){
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .sidebar{
+    transform:translateX(100%);
+  }
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.show{display:block}
+  .mobile-header{display:flex}
+  .main-content{margin-right:0;padding:16px;padding-top:calc(var(--header-height) + 16px)}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .week-grid{grid-template-columns:repeat(3,1fr)}
+  .drug-info{grid-template-columns:1fr}
+  .chat-msg{max-width:90%}
+  .fc-stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:480px){
+  .week-grid{grid-template-columns:repeat(2,1fr)}
+  .pomodoro-timer{font-size:2.8rem}
+  .welcome-banner h2{font-size:1.2rem}
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS & MISC
+   ═══════════════════════════════════════════ */
+.fade-enter{animation:fadeIn 0.4s ease}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+.pulse{animation:pulse 2s ease-in-out infinite}
+.hidden{display:none !important}
+.text-center{text-align:center}
+.mb-12{margin-bottom:12px}
+.mb-16{margin-bottom:16px}
+.mb-20{margin-bottom:20px}
+.mb-24{margin-bottom:24px}
+.mt-16{margin-top:16px}
+.mt-20{margin-top:20px}
+.gap-12{gap:12px}
+.flex{display:flex}
+.flex-col{flex-direction:column}
+.items-center{align-items:center}
+.justify-between{justify-content:space-between}
+.flex-wrap{flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<div class="mobile-header">
+  <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+  <span style="font-weight:700;font-size:1rem">نات پرستاری</span>
+  <span></span>
+</div>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h1>🩺 نات پرستاری</h1>
+    <p>Nat Nursing Platform</p>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-item active" data-page="dashboard" onclick="showPage('dashboard',this)">
+      <span class="icon">🏠</span><span>خانه</span>
+    </div>
+    <div class="nav-item" data-page="flashcards" onclick="showPage('flashcards',this)">
+      <span class="icon">🃏</span><span>فلش کارت</span>
+    </div>
+    <div class="nav-item" data-page="schedule" onclick="showPage('schedule',this)">
+      <span class="icon">📅</span><span>برنامه مطالعه</span>
+    </div>
+    <div class="nav-item" data-page="clinical" onclick="showPage('clinical',this)">
+      <span class="icon">🩻</span><span>دستیار بالینی</span>
+    </div>
+    <div class="nav-item" data-page="drugs" onclick="showPage('drugs',this)">
+      <span class="icon">💊</span><span>راهنمای داروها</span>
+    </div>
+    <div class="nav-item" data-page="nclex" onclick="showPage('nclex',this)">
+      <span class="icon">📝</span><span>تمرین NCLEX</span>
+    </div>
+    <div class="nav-item" data-page="resources" onclick="showPage('resources',this)">
+      <span class="icon">📚</span><span>منابع</span>
+    </div>
+    <div class="nav-item" data-page="chatbot" onclick="showPage('chatbot',this)">
+      <span class="icon">🤖</span><span>چت‌بات</span>
+    </div>
+  </nav>
+  <div class="sidebar-footer">نسخه ۱.۰ | نات پرستاری © ۱۴۰۵</div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 1: DASHBOARD
+       ═══════════════════════════════════════════ -->
+  <div class="page active" id="page-dashboard">
+    <div class="welcome-banner">
+      <h2>👋 سلام امین!</h2>
+      <p>امیدوارم حالت خوب باشه. بیا امروز رو با انرژی شروع کنیم!</p>
+    </div>
+
+    <div class="grid-2 mb-24">
+      <!-- Daily NCLEX -->
+      <div class="glass-card daily-card">
+        <h3>📝 سوال روز NCLEX</h3>
+        <p id="dailyNclex"></p>
+      </div>
+      <!-- Daily Medical Term -->
+      <div class="glass-card daily-card">
+        <h3>📖 اصطلاح پزشکی روز</h3>
+        <p id="dailyTerm"></p>
+      </div>
+    </div>
+
+    <div class="glass-card mb-24">
+      <div class="flex justify-between items-center mb-16">
+        <h3 class="section-title" style="margin-bottom:0">📈 پیشرفت هفتگی</h3>
+        <span style="color:var(--accent-light);font-weight:700" id="weeklyPercent">68%</span>
+      </div>
+      <div class="progress-bar"><div class="fill" id="weeklyProgress" style="width:68%"></div></div>
+    </div>
+
+    <div class="grid-4 mb-24">
+      <div class="glass-card stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-value" id="streakCount">12</div>
+        <div class="stat-label">روز مطالعه متوالی</div>
+      </div>
+      <div class="glass-card stat-card">
+        <div class="stat-icon">🃏</div>
+        <div class="stat-value" id="flashcardsMastered">7</div>
+        <div class="stat-label">فلش کارت تسلط یافته</div>
+      </div>
+      <div class="glass-card stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value" id="nclexScoreDash">73%</div>
+        <div class="stat-label">میانگین نمره NCLEX</div>
+      </div>
+      <div class="glass-card stat-card">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-value" id="totalStudyHours">24h</div>
+        <div class="stat-label">ساعات مطالعه این هفته</div>
+      </div>
+    </div>
+
+    <h3 class="section-title">⚡ دسترسی سریع</h3>
+    <div class="quick-actions">
+      <div class="quick-action-btn" onclick="showPage('flashcards',document.querySelector('[data-page=flashcards]'))">
+        <span class="qa-icon">🃏</span>فلش کارت
+      </div>
+      <div class="quick-action-btn" onclick="showPage('clinical',document.querySelector('[data-page=clinical]'))">
+        <span class="qa-icon">🩻</span>دستیار بالینی
+      </div>
+      <div class="quick-action-btn" onclick="showPage('drugs',document.querySelector('[data-page=drugs]'))">
+        <span class="qa-icon">💊</span>داروها
+      </div>
+      <div class="quick-action-btn" onclick="showPage('nclex',document.querySelector('[data-page=nclex]'))">
+        <span class="qa-icon">📝</span>تمرین NCLEX
+      </div>
+      <div class="quick-action-btn" onclick="showPage('schedule',document.querySelector('[data-page=schedule]'))">
+        <span class="qa-icon">📅</span>برنامه مطالعه
+      </div>
+      <div class="quick-action-btn" onclick="showPage('chatbot',document.querySelector('[data-page=chatbot]'))">
+        <span class="qa-icon">🤖</span>چت‌بات
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 2: FLASHCARDS
+       ═══════════════════════════════════════════ -->
+  <div class="page" id="page-flashcards">
+    <div class="page-title">🃏 فلش کارت</div>
+
+    <div class="fc-stats">
+      <div class="fc-stat"><div class="val" id="fcTotal">10</div><div class="lbl">کل فلش کارت‌ها</div></div>
+      <div class="fc-stat"><div class="val" id="fcMastered">3</div><div class="lbl">تسلط یافته</div></div>
+      <div class="fc-stat"><div class="val" id="fcAccuracy">72%</div><div class="lbl">دقت</div></div>
+    </div>
+
+    <div class="tabs mb-16" id="fcCategoryFilter"></div>
+
+    <div class="flex justify-between items-center mb-16">
+      <button class="btn btn-primary" onclick="openModal('addFlashcardModal')">➕ افزودن فلش کارت</button>
+      <button class="btn btn-secondary" onclick="startStudyMode()">📖 شروع مرور</button>
+    </div>
+
+    <div id="flashcardStudyArea" class="hidden">
+      <div class="flashcard-container">
+        <div class="flashcard" id="currentFlashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-front">
+            <span class="flashcard-category" id="fcCategory">دسته‌بندی</span>
+            <h3 id="fcFront"></h3>
+            <p style="margin-top:12px;color:var(--text-muted);font-size:0.8rem">کلیک کنید تا پاسخ را ببینید</p>
+          </div>
+          <div class="flashcard-back">
+            <h3>پاسخ</h3>
+            <p id="fcBack"></p>
+          </div>
+        </div>
+      </div>
+      <div class="flashcard-progress" id="fcProgress">1 از 10</div>
+      <div class="sr-buttons" id="srButtons">
+        <button class="sr-btn sr-hard" onclick="rateCard('hard')">❌ سخت</button>
+        <button class="sr-btn sr-good" onclick="rateCard('good')">👍 خوب</button>
+        <button class="sr-btn sr-easy" onclick="rateCard('easy')">✅ آسان</button>
+      </div>
+    </div>
+
+    <div id="flashcardList"></div>
+
+    <!-- Add Flashcard Modal -->
+    <div class="modal-overlay" id="addFlashcardModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>➕ افزودن فلش کارت جدید</h3>
+          <button class="modal-close" onclick="closeModal('addFlashcardModal')">✕</button>
+        </div>
+        <div class="form-group">
+          <label>دسته‌بندی</label>
+          <select class="form-input" id="newFcCategory">
+            <option value="داروسازی">💊 داروسازی</option>
+            <option value="پاتوفیزیولوژی">🔬 پاتوفیزیولوژی</option>
+            <option value="آناتومی">🦴 آناتومی</option>
+            <option value="مید-سورج">🏥 مید-سورج</option>
+            <option value="پرستاری اورژانس">🚑 پرستاری اورژانس</option>
+            <option value="مراقبت‌های ویژه">🫀 مراقبت‌های ویژه</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>روی کارت (سوال)</label>
+          <textarea class="form-input" id="newFcFront" placeholder="مثلاً: عملکرد کلیه‌ها چیست؟"></textarea>
+        </div>
+        <div class="form-group">
+          <label>پشت کارت (پاسخ)</label>
+          <textarea class="form-input" id="newFcBack" placeholder="مثلاً: فیلتراسیون خون و دفع مواد زائد..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="addFlashcard()" style="width:100%">ذخیره فلش کارت</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 3: STUDY SCHEDULE
+       ═══════════════════════════════════════════ -->
+  <div class="page" id="page-schedule">
+    <div class="page-title">📅 برنامه مطالعه</div>
+
+    <div class="grid-2 mb-24">
+      <div class="glass-card">
+        <h3 class="section-title">🗓️ برنامه هفتگی</h3>
+        <div class="week-grid" id="weekGrid"></div>
+      </div>
+      <div class="glass-card">
+        <h3 class="section-title">🎯 اهداف هفتگی</h3>
+        <ul class="goals-list" id="weeklyGoals"></ul>
+        <div class="flex gap-12 mt-16">
+          <input type="text" class="form-input" id="newGoalInput" placeholder="هدف جدید اضافه کنید..." style="flex:1">
+          <button class="btn btn-primary btn-sm" onclick="addGoal()">افزودن</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card mb-24">
+      <div class="flex justify-between items-center mb-16">
+        <h3 class="section-title" style="margin-bottom:0">➕ افزودن جلسه مطالعه</h3>
+      </div>
+      <div class="grid-4">
+        <div class="form-group">
+          <label>روز</label>
+          <select class="form-input" id="sessionDay">
+            <option value="0">شنبه</option><option value="1">یکشنبه</option>
+            <option value="2">دوشنبه</option><option value="3">سه‌شنبه</option>
+            <option value="4">چهارشنبه</option><option value="5">پنجشنبه</option>
+            <option value="6">جمعه</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>زمان شروع</label>
+          <input type="time" class="form-input" id="sessionTime" value="09:00">
+        </div>
+        <div class="form-group">
+          <label>موضوع</label>
+          <select class="form-input" id="sessionSubject">
+            <option value="pharma">💊 داروسازی</option>
+            <option value="anat">🦴 آناتومی</option>
+            <option value="medsurg">🏥 مید-سورج</option>
+            <option value="nclex">📝 NCLEX</option>
+            <option value="patho">🔬 پاتوفیزیولوژی</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>مدت زمان (دقیقه)</label>
+          <input type="number" class="form-input" id="sessionDuration" value="60" min="15" step="15">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="addSession()">افزودن جلسه</button>
+    </div>
+
+    <div class="glass-card">
+      <h3 class="section-title">⏱️ پومودورو - تایمر مطالعه</h3>
+      <div class="pomodoro-section">
+        <div class="pomodoro-label" id="pomodoroLabel">زمان مطالعه</div>
+        <div class="pomodoro-timer" id="pomodoroTimer">25:00</div>
+        <div class="pomodoro-controls">
+          <button class="btn btn-primary" id="pomodoroStartBtn" onclick="togglePomodoro()">▶️ شروع</button>
+          <button class="btn btn-secondary" onclick="resetPomodoro()">🔄 بازنشانی</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 4: CLINICAL ASSISTANT
+       ═══════════════════════════════════════════ -->
+  <div class="page" id="page-clinical">
+    <div class="page-title">🩻 دستیار بالینی</div>
+
+    <div class="clinical-tabs" id="clinicalTabs">
+      <div class="clinical-tab active" onclick="showClinicalTab('sbar',this)">📋 سازنده SBAR</div>
+      <div class="clinical-tab" onclick="showClinicalTab('careplan',this)">📑 طرح مراقبت</div>
+      <div class="clinical-tab" onclick="showClinicalTab('simulator',this)">🩺 شبیه‌ساز بیمار</div>
+      <div class="clinical-tab" onclick="showClinicalTab('reference',this)">📊 مراجع سریع</div>
+    </div>
+
+    <!-- SBAR -->
+    <div class="clinical-panel active" id="panel-sbar">
+      <div class="glass-card">
+        <h3 class="section-title">📋 سازنده SBAR</h3>
+        <div class="sbar-field s">
+          <h4><span class="letter">S</span> وضعیت (Situation)</h4>
+          <textarea class="form-input" id="sbarS" placeholder="وضعیت فعلی بیمار را توضیح دهید..."></textarea>
+        </div>
+        <div class="sbar-field b">
+          <h4><span class="letter">B</span> سابقه (Background)</h4>
+          <textarea class="form-input" id="sbarB" placeholder="سابقه و اطلاعات پس‌زمینه بیمار..."></textarea>
+        </div>
+        <div class="sbar-field a">
+          <h4><span class="letter">A</span> ارزیابی (Assessment)</h4>
+          <textarea class="form-input" id="sbarA" placeholder="ارزیابی و تشخیص شما..."></textarea>
+        </div>
+        <div class="sbar-field r">
+          <h4><span class="letter">R</span> پیشنهاد (Recommendation)</h4>
+          <textarea class="form-input" id="sbarR" placeholder="پیشنهاد و درخواست شما..."></textarea>
+        </div>
+        <div class="flex gap-12">
+          <button class="btn btn-primary" onclick="generateSBAR()">📄 تولید گزارش</button>
+          <button class="btn btn-secondary" onclick="clearSBAR()">🗑️ پاک کردن</button>
+        </div>
+        <div class="glass-card mt-16 hidden" id="sbarOutput" style="border-right:3px solid var(--accent)">
+          <h4 style="margin-bottom:10px;color:var(--accent-light)">📄 گزارش SBAR</h4>
+          <pre id="sbarText" style="white-space:pre-wrap;font-size:0.85rem;color:var(--text-secondary);line-height:1.8"></pre>
+          <button class="btn btn-secondary btn-sm mt-16" onclick="copySBAR()">📋 کپی</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Care Plan -->
+    <div class="clinical-panel" id="panel-careplan">
+      <div class="glass-card">
+        <h3 class="section-title">📑 سازنده طرح مراقبت</h3>
+        <div class="form-group"><label>ارزیابی (Assessment)</label><textarea class="form-input" id="cpAssess" placeholder="یافته‌های ارزیابی..."></textarea></div>
+        <div class="form-group"><label>تشخیص پرستاری (Diagnosis)</label><input class="form-input" id="cpDiag" placeholder="مثلاً: درد حاد مرتبط با جراحی..."></div>
+        <div class="form-group"><label>برنامه‌ریزی (Planning)</label><textarea class="form-input" id="cpPlan" placeholder="اهداف و برنامه‌ها..."></textarea></div>
+        <div class="form-group"><label>اجرا (Implementation)</label><textarea class="form-input" id="cpImpl" placeholder="اقدامات اجرایی..."></textarea></div>
+        <div class="form-group"><label>ارزیابی (Evaluation)</label><textarea class="form-input" id="cpEval" placeholder="معیارهای ارزیابی..."></textarea></div>
+        <button class="btn btn-primary" onclick="generateCarePlan()">📄 تولید طرح مراقبت</button>
+        <div class="glass-card mt-16 hidden" id="cpOutput" style="border-right:3px solid var(--success)">
+          <h4 style="margin-bottom:10px;color:var(--success)">📄 طرح مراقبت</h4>
+          <pre id="cpText" style="white-space:pre-wrap;font-size:0.85rem;color:var(--text-secondary);line-height:1.8"></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patient Simulator -->
+    <div class="clinical-panel" id="panel-simulator">
+      <div class="glass-card">
+        <h3 class="section-title">🩺 شبیه‌ساز ارزیابی بیمار</h3>
+        <div class="grid-2">
+          <div class="form-group"><label>دمای بدن (°C)</label><input type="number" class="form-input" id="simTemp" value="37" step="0.1"></div>
+          <div class="form-group"><label>ضربان قلب ( bpm)</label><input type="number" class="form-input" id="simHR" value="80"></div>
+          <div class="form-group"><label>فشار خون (mmHg)</label><input class="form-input" id="simBP" value="120/80"></div>
+          <div class="form-group"><label>تنفس (呼吸/دقیقه)</label><input type="number" class="form-input" id="simRR" value="16"></div>
+          <div class="form-group"><label>اشباع اکسیژن (SpO2%)</label><input type="number" class="form-input" id="simSpO2" value="98"></div>
+          <div class="form-group"><label>سطح درد (0-10)</label><input type="number" class="form-input" id="simPain" value="0" min="0" max="10"></div>
+        </div>
+        <div class="form-group"><label>علائم و نشانه‌ها</label><textarea class="form-input" id="simSymptoms" placeholder="مثلاً: تب، لرز، تعریق، سرگیجه..."></textarea></div>
+        <button class="btn btn-primary" onclick="simulatePatient()">🔍 ارزیابی پرستاری</button>
+        <div class="glass-card mt-16 hidden" id="simOutput" style="border-right:3px solid var(--info)">
+          <h4 style="margin-bottom:10px;color:var(--info)">📋 گزارش ارزیابی پرستاری</h4>
+          <div id="simResult" style="font-size:0.85rem;color:var(--text-secondary);line-height:1.8"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reference -->
+    <div class="clinical-panel" id="panel-reference">
+      <div class="grid-2">
+        <div class="glass-card">
+          <h3 class="section-title">📊 علائم حیاتی طبیعی</h3>
+          <table class="reference-table">
+            <thead><tr><th>پارامتر</th><th>مقدار طبیعی</th></tr></thead>
+            <tbody>
+              <tr><td>دمای بدن</td><td>36.1 - 37.2 °C</td></tr>
+              <tr><td>ضربان قلب</td><td>60 - 100 bpm</td></tr>
+              <tr><td>فشار خون سیستولیک</td><td>90 - 140 mmHg</td></tr>
+              <tr><td>فشار خون دیاستولیک</td><td>60 - 90 mmHg</td></tr>
+              <tr><td>تنفس</td><td>12 - 20呼吸/دقیقه</td></tr>
+              <tr><td>SpO2</td><td>95 - 100%</td></tr>
+              <tr><td>سطح درد</td><td>0 (بدون درد)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="glass-card">
+          <h3 class="section-title">🧪 مقادیر طبیعی آزمایشگاهی</h3>
+          <table class="reference-table">
+            <thead><tr><th>آزمایش</th><th>مقدار طبیعی</th></tr></thead>
+            <tbody>
+              <tr><td>گلوکز ناشتا</td><td>70 - 100 mg/dL</td></tr>
+              <tr><td>HbA1c</td><td>4 - 5.6%</td></tr>
+              <tr><td>کراتینین</td><td>0.6 - 1.2 mg/dL</td></tr>
+              <tr><td>BUN</td><td>7 - 20 mg/dL</td></tr>
+              <tr><td>سدیم</td><td>136 - 145 mEq/L</td></tr>
+              <tr><td>پتاسیم</td><td>3.5 - 5.0 mEq/L</td></tr>
+              <tr><td>وایت بلاد سل</td><td>4,500 - 11,000</td></tr>
+              <tr><td>پلاکت</td><td>150,000 - 400,000</td></tr>
+              <tr><td>INR</td><td>0.8 - 1.2</td></tr>
+              <tr><td>pH خون شریانی</td><td>7.35 - 7.45</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 5: DRUG REFERENCE
+       ═══════════════════════════════════════════ -->
+  <div class="page" id="page-drugs">
+    <div class="page-title">💊 راهنمای داروها</div>
+    <div class="flex gap-12 mb-20 flex-wrap">
+      <input type="text" class="form-input" id="drugSearch" placeholder="🔍 جستجوی نام دارو..." style="max-width:320px" oninput="filterDrugs()">
+      <select class="form-input" id="drugCategoryFilter" style="max-width:200px" onchange="filterDrugs()">
+        <option value="all">همه دسته‌بندی‌ها</option>
+        <option value="قلبی عروقی">قلبی عروقی</option>
+        <option value="ضد درد">ضد درد</option>
+        <option value="آنتی‌بیوتیک">آنتی‌بیوتیک</option>
+        <option value="ضد افسردگی">ضد افسردگی</option>
+        <option value="ضد دیابت">ضد دیابت</option>
+        <option value="ضد تشنج">ضد تشنج</option>
+        <option value="ضد فشار خون">ضد فشار خون</option>
+        <option value="ضد تهوع">ضد تهوع</option>
+        <option value="ضد انعقاد">ضد انعقاد</option>
+        <option value="کورتیکواستروئید">کورتیکواستروئید</option>
+      </select>
+    </div>
+    <div id="drugList"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 6: NCLEX PRACTICE
+       ═══════════════════════════════════════════ -->
+  <div class="page" id="page-nclex">
+    <div class="page-title">📝 تمرین NCLEX</div>
+
+    <div class="glass-card nclex-score mb-24">
+      <div class="score-num" id="nclexScoreDisplay">0%</div>
+      <div class="score-label">نمره فعلی (<span id="nclexCorrect">0</span> از <span id="nclexAnswered">0</span> پاسخ صحیح)</div>
+    </div>
+
+    <div class="tabs mb-20" id="nclexCategoryFilter"></div>
+
+    <div id="nclexQuestions"></div>
+
+    <div class="flex justify-between items-center mt-20">
+      <button class="btn btn-primary" onclick="resetNclex()">🔄 شروع مجدد</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 7: RESOURCES
+       ═══════════════════════════════════════════ -->
+  <div class="page" id="page-resources">
+    <div class="page-title">📚 منابع</div>
+
+    <h3 class="section-title">🔗 لینک‌های مفید</h3>
+    <div class="grid-2 mb-24" id="resourcesList"></div>
+
+    <h3 class="section-title">💡 نکات مطالعه</h3>
+    <div class="grid-2 mb-24" id="studyTips"></div>
+
+    <h3 class="section-title">🚑 شماره‌های اورژانسی و مراجع سریع</h3>
+    <div class="emergency-grid mb-24" id="emergencyNumbers"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PAGE 8: CHATBOT
+       ═══════════════════════════════════════════ -->
+  <div class="page" id="page-chatbot">
+    <div class="chat-container">
+      <div class="chat-header">
+        <div class="avatar">🤖</div>
+        <div class="info">
+          <h3>چت‌بات نات پرستاری</h3>
+          <p>● آنلاین</p>
+        </div>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg bot">سلام امین! 👋 من دستیار هوشمند نات پرستاری هستم. هر سوال پرستاری داری بپرس!</div>
+      </div>
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+      <div class="chat-quick-btns" id="chatQuickBtns">
+        <button class="chat-quick-btn" onclick="sendQuickQ('آنتی‌بیوتیک‌های رایج')">💊 آنتی‌بیوتیک‌ها</button>
+        <button class="chat-quick-btn" onclick="sendQuickQ('علائم حیاتی طبیعی')">💓 علائم حیاتی</button>
+        <button class="chat-quick-btn" onclick="sendQuickQ('نکات NCLEX')">📝 نکات NCLEX</button>
+        <button class="chat-quick-btn" onclick="sendQuickQ('مراقبت از بیمار دیابتی')">🩸 دیابت</button>
+        <button class="chat-quick-btn" onclick="sendQuickQ('تکنیک‌های مصاحبه بالینی')">🩺 مصاحبه بالینی</button>
+        <button class="chat-quick-btn" onclick="sendQuickQ('انواع درد')">疼痛 درد</button>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" placeholder="پیام خود را بنویسید..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="chat-send" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main-content -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════════════════════════════ */
+
+const flashcardsData = [
+  {id:1,front:"آسپرین چه اثری بر پلاکت‌ها دارد؟",back:"آسپرین با مهار آنزیم COX-1 از تولید ترومبوکسان A2 جلوگیری می‌کند و در نتیجه از اتصال پلاکتی و تشکیل لخته جلوگیری می‌کند. اثر آن غیرقابل برگشت است.",category:"داروسازی",reviewCount:0,correct:0},
+  {id:2,front:"علائم شوک آنافیلاکتیک چیست؟",back:"علائم شامل: کهیر و خارش پوست، ادم آنژیوادم، انسداد راه هوایی، افت شدید فشار خون، تاکی‌کاردی، تنفس سریع و خس‌خس سینه است. درمان فوری: اپی‌نفرین IM.",category:"پرستاری اورژانس",reviewCount:0,correct:0},
+  {id:3,front:"نقش کلیه‌ها در بدن چیست؟",back:"فیلتراسیون خون (حدود ۱۸۰ لیتر در روز)، دفع مواد زائد و سموم، تنظیم تعادل مایعات و الکترولیت‌ها، تنظیم فشار خون (رینین-آنژیوتانسین)، تولید اریthropoietin و فعال‌سازی ویتامین D.",category:"آناتومی",reviewCount:0,correct:0},
+  {id:4,front:"تفاوت سکته ایسکمی و هموراژیک مغزی چیست؟",back:"ایسکمی (85%): انسداد رگ خونی → کمبود اکسیژن → مرگ بافت. هموراژیک (15%): پارگی رگ → خونریزی مغزی. هر دو باعث فلج، اختلال گفتار و مشکلات شناختی می‌شوند.",category:"پاتوفیزیولوژی",reviewCount:0,correct:0},
+  {id:5,front:"پروتکل ایمنی انسولین شامل چه مواردی است؟",back:"۱. تأیید هویت بیمار و دارو (۲ بار). ۲. بررسی تاریخ انقضا. ۳. اندازه‌گیری گلوکز خون. ۴. تکنیک تزریق صحیح. ۵. ثبت محل تزریق. ۶. آموزش بیمار درباره ا hypo/hyperglycemia.",category:"مید-سورج",reviewCount:0,correct:0},
+  {id:6,front:"مکانیسم عمل متفورمین چیست؟",back:"متفورمین با کاهش تولید گلوکز توسط کبد، افزایش حساسیت بافت‌ها به انسولین و کاهش جذب روده‌ای گلوکز عمل می‌کند. اولین خط درمان دیابت نوع ۲ است.",category:"داروسازی",reviewCount:0,correct:0},
+  {id:7,front:"مراحل رشد روانی اریکسون در دوران نوجوانی چیست؟",back:"مرحله ۵: هویت در مقابل سردرگمی نقش (۱۲-۱۸ سال). نوجوان باید هویت خود را بیابد. شکست منجر به سردرگمی نقش می‌شود. وظیفه پرستار: حمایت از کاوش هویت و تقویت اعتماد به نفس.",category:"آناتومی",reviewCount:0,correct:0},
+  {id:8,front:"علائم کمبود پتاسیم (هیپوکالمی) چیست؟",back:"ضعف و فلج عضلانی، آریتمی قلبی، یبوست، خستگی، افسردگی، رفلکس‌های ضعیف. در ECG: تغییرات موج T (صاف شدن)، افسردگی ST و ظهور موج U.",category:"پاتوفیزیولوژی",reviewCount:0,correct:0},
+  {id:9,front:"اصول مراقبت از بیمار با لوله NG چیست؟",back:"۱. بررسی موقعیت لوله (aspire محتوای معده، pH < 5.5). ۲. شستشو با آب قبل و بعد از تغذیه. ۳. بالا بردن سر تخت ۳۰-۴۵ درجه. ۴. کنترل تخلل معده. ۵. مراقبت بینی.",category:"مید-سورج",reviewCount:0,correct:0},
+  {id:10,front:"تفاوت حمله قلبی و آنژین صدری چیست؟",back:"آنژین: درد موقتی با استراحت یا نیتروگلیسرین بهبود می‌یابد، بدون آسیب دائمی میوکارد. سکته قلبی: درد شدید و مداوم (بیش از ۲۰ دقیقه)، با نیتروگلیسرین بهبود نمی‌یابد، آسیب دائمی میوکارد، افزایش troponin.",category:"مید-سورج",reviewCount:0,correct:0}
+];
+
+const nclexData = [
+  {id:1,question:"بیماری با نارسایی احتقانی قلب دارای چه علائمی است؟",options:["تاكی كاردی، ورم مچ پا، تنفس سریع","bradicardia، پوست خشک، تب","افت فشار خون، خونریزی بینی، سردرد","گرفتگی عضلات، تعریق شبانه"],correct:0,category:"قلبی عروقی",rationale:"نارسایی احتقانی قلب باعث تجمع مایعات در بافت‌ها می‌شود. تاکی‌کاردی برای جبران کاهش برون‌ده قلبی است. ورم مچ پا نشانه احتباس مایعات است. تنفس سریع نشانه احتقان ریه است."},
+  {id:2,question:"اولین اقدام درمانی برای بیماری که دچار شوک آنافیلاکتیک شده چیست؟",options:["تزریق اپی‌نفرین IM","اتصال IV با سالین","اکسیژن با ماسک","قرار دادن بیمار در وضعیت ترندلنبرگ"],correct:0,category:"اورژانس",rationale:"اپی‌نفرین داروی خط اول در شوک آنافیلاکتیک است. باعث گشادی نایژه‌ها، افزایش فشار خون و کاهش تورم می‌شود. تزریق در عضله ران انجام می‌شود."},
+  {id:3,question:"کدام آزمایش برای تشخیص دیابت استفاده می‌شود؟",options:["HbA1c بالاتر از ۶.۵٪","TSH پایین","کراتینین بالا","WBC بالا"],correct:0,category:"آزمایشگاهی",rationale:"HbA1c سطح میانگین گلوکز خون در ۲-۳ ماه گذشته را نشان می‌دهد. مقادیر بالای ۶.۵٪ نشان‌دهنده دیابت است. آزمایش نیاز به ناشتایی ندارد."},
+  {id:4,question:"بیماری با پنومونی باید چه وضعیتی داشته باشد؟",options:["半坐 لایه (semi-Fowler's)","وضعیت خوابیده به پشت","وضعیت سر به پایین","وضعیت پراکنال"],correct:0,category:"تنفسی",rationale:"وضعیت نیمه‌نشسته (semi-Fowler's یا ۳۰-۴۵ درجه) به بهترین شکل تنفس را تسهیل می‌کند و فشار بر قلب و ریه‌ها را کاهش می‌دهد. همچنین از آسپیراسیون جلوگیری می‌کند."},
+  {id:5,question:"عوارض جانبی مصرف وارفارین شامل کدام مورد است؟",options:["افزایش خطر خونریزی","افزایش فشار خون","کاهش ضربان قلب","افزایش وزن"],correct:0,category:"داروسازی",rationale:"وارفارین یک ضدانعقاد است که با مهار ویتامین K از تولید فاکتورهای انعقادی جلوگیری می‌کند. عارضه اصلی آن افزایش خطر خونریزی است. INR باید به طور منظم کنترل شود."},
+  {id:6,question:"پرستار باید چه زمانی دیورتیک فوروزماید را تجویز کند؟",options:["صبح زود","شب قبل از خواب","همراه با غذا","بین وعده‌های غذایی"],correct:0,category:"داروسازی",rationale:"فوروسماید باید صبح زود تجویز شود تا اختلال خواب بیمار به حداقل برسد. دیورتیک‌ها باعث افزایش ادرار می‌شوند و مصرف شبانه آن‌ها بیمار را از خواب بیدار می‌کند."},
+  {id:7,question:"علائم کمبود آهن چیست؟",options:["کم‌خونی، خستگی، زبان صاف","تب، لرز، تعریق","سردرد، تهوع، استفراغ","اسهال، کرامپ شکمی"],correct:0,category:"تغذیه",rationale:"کمبود آهن منجر به کم‌خونی فقر آهن می‌شود. علائم شامل خستگی مفرط، رنگ پریدگی، زبان صاف و دردناک (glossitis)، و ترک‌خوردگی گوشه دهان (cheilosis) است."},
+  {id:8,question:"اقدام پرستاری مناسب برای بیماری که دچار تشنج شده شامل چه موردی است؟",options:[" محافظت از سر و باز نگه‌داشتن راه هوایی","محدود کردن حرکات بیمار","قرار دادن جسمی در دهان","تزریق سریع مایعات"],correct:0,category:"اورژانس",rationale:"در حین تشنج مهم‌ترین اقدام محافظت از سر و باز نگه‌داشتن راه هوایی است. هرگز نباید جسمی در دهان بیمار قرار داد (خطر شکستن دندان و آسیب). محدود کردن حرکات می‌تواند باعث آسیب شود."},
+  {id:9,question:"تکنیک صحیح شستشوی زخم شامل چه مراحلی است؟",options:["از مرکز به سمت بیرون","از بیرون به سمت مرکز","از بالا به پایین","از پایین به بالا"],correct:0,category:"زخم",rationale:"شستشوی زخم باید از مرکز به سمت بیرون انجام شود تا آلودگی از مرکز زخم دور شود و به بافت‌های سالم اطراف منتقل نشود. از سرم فیزیولوژی استفاده می‌شود."},
+  {id:10,question:"بیماری دیابتی با HbA1c بالا نشان‌دهنده چه وضعیتی است؟",options:["کنترل ضعیف قند خون در ۲-۳ ماه اخیر","کنترل خوب قند خون","ابتلا به دیابت نوع ۱","عدم نیاز به انسولین"],correct:0,category:"دیابت",rationale:"HbA1c بالای ۷٪ نشان‌دهنده کنترل ضعیف قند خون است. این آزمایش میانگین قند خون ۲-۳ ماه اخیر را نشان می‌دهد و هدف برای اکثر بیماران زیر ۷٪ است."},
+  {id:11,question:"کدام دارو برای کاهش تب در کودکان مناسب است؟",options:["استامینوفن","آسپرین","ایبوپروفن (زیر ۶ ماه)","ندومتاسین"],correct:0,category:"اطفال",rationale:"استامینوفن برای کاهش تب در کودکان بی‌خطر است. آسپرین در کودکان با سندرم ری (Reye's Syndrome) مرتبط است. ایبوپروفن برای نوزادان زیر ۶ ماه توصیه نمی‌شود."},
+  {id:12,question:"چه علائمی نشان‌دهنده انسداد روده است؟",options:["تهوع شدید، استفراغ، درد کرامپی شکمی، عدم عبور مدفوع","اسهال آبی","ادرار تیره","تب بالا"],correct:0,category:" GI",rationale:"انسداد روده باعث تجمع مایعات و گاز در بالای محل انسداد می‌شود. تهوع و استفراغ شدید، درد کرامپی، عدم عبور مدفوع و بادکردگی شکم از علائم اصلی هستند."},
+  {id:13,question:"پرستار باید چه اقدامی برای جلوگیری از آمبولی ریوی انجام دهد؟",options:["تحریک بیمار به حرکت زودرس پس از جراحی","محدود کردن حرکات بیمار","تزریق مایعات کمتر","قرار دادن بیمار در وضعیت خوابیده"],correct:0,category:"جراحی",rationale:"تحریک به حرکت زودرس پس از جراحی مهم‌ترین اقدام پیشگیرانه از آمبولی وریدی و ریوی است. همچنین جوراب‌های فشرده و مصرف ضدانعقادها نیز موثرند."},
+  {id:14,question:"بیمار دیالیزی باید از کدام مواد غذایی اجتناب کند؟",options:["غذاهای غنی از پتاسیم و فسفر","پروتئین","کربوهیدرات‌ها","فیبر"],correct:0,category:"کلیوی",rationale:"بیماران دیالیزی باید از غذاهای غنی از پتاسیم (موز، پرتقال) و فسفر (شیر، نوشابه) اجتناب کنند چون کلیه‌ها توانایی دفع آن‌ها را ندارند. محدودیت پروتئین نیز ممکن است لازم باشد."},
+  {id:15,question:"کدام‌یک نشانه‌های هایپرگلیسمی است؟",options:["تکرر ادرار، تشنگی شدید، تاری دید","لرز، تعریق، سرگیگی","گرسنگی شدید، تعریق","بی‌قراری و اضطراب"],correct:0,category:"دیابت",rationale:"هایپرگلیسمی (قند خون بالا) باعث ادرار زیاد (پلی‌اوری) می‌شود که منجر به کم‌آبی و تشنگی شدید (پلی‌دیپسی) می‌شود. تاری دید نیز به دلیل تغییر شکل عدسی چشم ایجاد می‌شود."}
+];
+
+const drugsData = [
+  {id:1,name:"آسپرین (Aspirin)",nameEn:"Aspirin",class:"ضدالتهاب غیراستروئیدی (NSAID)",indication:"درد، تب، التهاب، پیشگیری از لخته",dose:"۷۵-۳۲۵ mg روزانه (قلبی) | ۳۲۵-۶۵۰ mg هر ۴-۶ ساعت (درد)",sideEffects:"خونریزی گوارشی، زنگ زدن گوش، حالت تهوع",nursing:"بررسی سابقه خونریزی | تجویز با غذا | کنترل زمان خونریزی",category:"قلبی عروقی"},
+  {id:2,name:"متفورمین (Metformin)",nameEn:"Metformin",class:"بیگوانید",indication:"دیابت نوع ۲",dose:"۵۰۰ mg دو بار در روز | حداکثر ۲۵۵۰ mg/روز",sideEffects:"تهوع، اسهال، درد شکمی، مزه فلزی",nursing:"با غذا تجویز شود | کنترل عملکرد کلیه | آموزش لکتیک اسیدوز",category:"ضد دیابت"},
+  {id:3,name:"لیسینوپریل (Lisinopril)",nameEn:"Lisinopril",class:"مهارکننده ACE",indication:"فشار خون بالا، نارسایی قلبی",dose:"۱۰ mg روزانه | حداکثر ۸۰ mg",sideEffects:"سرفه خشک، سرگیجه، هیپرکالمی، آنژیوادم",nursing:"کنترل K+ خون | پایش فشار | هشدار درباره سرفه مزمن",category:"ضد فشار خون"},
+  {id:4,name:"مorfine (Morfine)",nameEn:"Morphine",class:"آگونیست اوپیوئیدی قوی",indication:"درد شدید (پس از جراحی، سرطان)",dose:"۲-۱۵ mg IV هر ۴ ساعت | ۵-۱۵ mg IM هر ۴ ساعت",sideEffects:"یبوست، تهوع، تضعیف تنفسی، خواب‌آلودگی",nursing:"پایش تنفس (RR < 12 متوقف) | نالوکسان در دسترس | نکروز شایع",category:"ضد درد"},
+  {id:5,name:"وارفارین (Warfarin)",nameEn:"Warfarin",class:"ضدانعقاد خوراکی",indication:"پیشگیری و درمان ترومبوز",dose:"تیتره شده بر اساس INR (هدف: 2-3)",sideEffects:"خونریزی، کبودی، ادرار خونی",nursing:"کنترل INR | اجتناب از غذاهای غنی ویتامین K | آموزش علائم خونریزی",category:"ضد انعقاد"},
+  {id:6,name:"آمoxicillin (Amoxicillin)",nameEn:"Amoxicillin",class:"پنی‌سیلین",indication:"عفونت‌های باکتریایی (گوش، سینوس، ادراری)",dose:"۲۵۰-۵۰۰ mg هر ۸ ساعت",sideEffects:"اسهال، رASH پوستی، حالت تهوع",nursing:"بررسی حساسیت | کامل کردن دوره درمان | تجویز با/بدون غذا",category:"آنتی‌بیوتیک"},
+  {id:7,name:"لوراتادین (Loratadine)",nameEn:"Loratadine",class:"آنتی‌هیستامین غیرآرام‌بخش",indication:"آلرژی، کهیر، رینیت آلرژیک",dose:"۱۰ mg روزانه",sideEffects:"سردرد، خواب‌آلودگی خفیف",nursing:"اولویت با مصرف شب | عدم مصرف با آب‌میوه‌های اسیدی",category:"آلرژی"},
+  {id:8,name:"آتورواستاتین (Atorvastatin)",nameEn:"Atorvastatin",class:"استاتین",indication:"کلسترول بالا، پیشگیری قلبی عروقی",dose:"۱۰-۸۰ mg روزانه (شب)",sideEffects:"درد عضلانی، مشکلات کبدی",nursing:"کنترل آنزیم‌های کبدی | اجتناب از آب‌میوه گریپ‌فروت | مصرف شب",category:"قلبی عروقی"},
+  {id:9,name:"سیلوستازول (Cilostazol)",nameEn:"Cilostazol",class:"مهارکننده فسفودی‌استراز 3",indication:"علائم م.INTERMITTENT Claudication",dose:"۱۰۰ mg دو بار در روز",sideEffects:"سردرد، اسهال، تاکی‌کاردی",nursing:"منع مصرف در نارسایی قلبی | پایش ضربان قلب",category:"قلبی عروقی"},
+  {id:10,name:"پردنیزولون (Prednisolone)",nameEn:"Prednisolone",class:"کورتیکواستروئید",indication:"التهاب، آلرژی، آسم، بیماری‌های خودایمنی",dose:"۵-۶۰ mg روزانه",sideEffects:"هیپرگلیسمی، افزایش وزن، پوکی استخوان",nursing:"تدریجی قطع نکردن | مراقبت از دهان | پایش قند خون",category:"کورتیکواستروئید"},
+  {id:11,name:"گاباپنتین (Gabapentin)",nameEn:"Gabapentin",class:"ضدتشنج / آنتی‌نورالژیک",indication:"صرع، درد نوروپاتیک، شingles",dose:"۳۰۰ mg روزانه تا حداکثر ۳۶۰۰ mg",sideEffects:"سرگیجه، خواب‌آلودگی، تورم پا",nursing:"قطع تدریجی | رانندگی ممنوع | پایش علائم افسردگی",category:"ضد تشنج"},
+  {id:12,name:"آملودیپین (Amlodipine)",nameEn:"Amlodipine",class:"بلوکر کانال کلسیم",indication:"فشار خون بالا، آنژین",dose:"۵-۱۰ mg روزانه",sideEffects:"تورم مچ پا، سردرد، گرگرفتگی",nursing:"پایش فشار | اجتناب از گریپ‌فروت | ایستادن آهسته",category:"ضد فشار خون"},
+  {id:13,name:"اُندانسترون (Ondansetron)",nameEn:"Ondansetron",class:"آنتاگونیست 5-HT3",indication:"تهوع و استفراغ (پس از جراحی، شیمی‌درمانی)",dose:"۴ mg IV/PO هر ۸ ساعت",sideEffects:"سردرد، یبوست، سرگیجه",nursing:"تزریق آهسته IV (حداقل ۳۰ ثانیه) | عدم مخلوط با سایر داروها",category:"ضد تهوع"},
+  {id:14,name:"دیگوکسین (Digoxin)",nameEn:"Digoxin",class:"گلیکوزید قلبی",indication:"نارسایی قلبی، فیبریلاسیون دهلیزی",dose:"۱۲۵-۲۵۰ mcg روزانه",sideEffects:"تهوع، تاری دید، آریتمی، بی‌اشتهایی",nursing:"پایش ضربان قلب (قبل از تجویز) | کنترل سطح خونی | هشدار سمیت",category:"قلبی عروقی"},
+  {id:15,name:"لوتیروکسین (Levothyroxine)",nameEn:"Levothyroxine",class:"هورمون تیروئید",indication:"کم‌کاری تیروئید",dose:"۵۰-۲۰۰ mcg روزانه (ناشتا)",sideEffects:"تپش قلب، بی‌قراری، بی‌خوابی، کاهش وزن",nursing:"ناشتا و با آب مصرف شود | عدم مصرف با کلسیم/آهن | کنترل TSH",category:"هورمونی"},
+  {id:16,name:"آلبутرول (Albuterol)",nameEn:"Albuterol",class:"آگونیست β2",indication:"آسم، برونشیت",dose:"۲ پاف اینهالر هر ۴-۶ ساعت | نبولایزر ۲.۵ mg",sideEffects:"تاکی‌کاردی، لرز دست، سردرد",nursing:"قبل از استروئید اینهالری | شستشوی دهان | آموزش تکنیک اینهالر",category:"تنفسی"},
+  {id:17,name:"سیپروفلوکساسین (Ciprofloxacin)",nameEn:"Ciprofloxacin",class:"فلوئوروکینولون",indication:"عفونت ادراری، پنومونی، انتروکولیت",dose:"۲۵۰-۷۵۰ mg هر ۱۲ ساعت",sideEffects:"تهوع، اسهال، درد تاندون، حساسیت به نور",nursing:"اجتناب از لبنیات و آنتی‌اسیدها | نور خورشید | آب زیاد بنوشد",category:"آنتی‌بیوتیک"},
+  {id:18,name:"کلدازپام (Diazepam)",nameEn:"Diazepam",class:"بنزودیازپین",indication:"اضطراب، تشنج، اسپاسم عضلانی",dose:"۲-۱۰ mg هر ۶-۸ ساعت",sideEffects:"خواب‌آلودگی، آتاکسی، وابستگی",nursing:"قطع تدریجی | عدم مصرف با الکل | پایش تنفس",category:"آرام‌بخش"},
+  {id:19,name:"پنتوپرازول (Pantoprazole)",nameEn:"Pantoprazole",class:"مهارکننده پروتون پمپ",indication:"GERD، زخم معده، رفلاکس",dose:"۴۰ mg روزانه (ناشتا)",sideEffects:"سردرد، اسهال، درد شکمی",nursing:"ناشتا مصرف شود | مدت درمان محدود | کنترل منیزیم",category:"GI"},
+  {id:20,name:"نیتروگلیسرین (Nitroglycerin)",nameEn:"Nitroglycerin",class:"نیترات",indication:"آنژین صدری، نارسایی قلبی حاد",dose:"۰.۴ mg زیرزبانی هر ۵ دقیقه (حداکثر ۳ دوز)",sideEffects:"سردرد، افت فشار، سرگیجه",nursing:"نشستن حین مصرف | عدم مصرف با سیلدنافیل | ذخیره در ظرف تیره",category:"قلبی عروقی"}
+];
+
+const chatKnowledge = [
+  {q:"آنتی‌بیوتیک‌های رایج",a:"常见 آنتی‌بیوتیک‌ها شامل: ۱) آموکسی‌سیلین (پنی‌سیلین) - برای عفونت‌های تنفسی. ۲) آزیترومایسین (ماکرولید) - پنومونی، عفونت تنفسی. ۳) سیپروفلوکساسین (فلوئوروکینولون) - عفونت ادراری. ۴) سفالکسین (سفالوسپورین) - عفونت پوستی. ۵) مترونیدازول - عفونت‌های بی‌هوازی. نکته مهم: دوره آنتی‌بیوتیک را کامل کنید! 🏥"},
+  {q:"علائم حیاتی طبیعی",a:"علائم حیاتی طبیعی در بزرگسالان: 💓 ضربان قلب: ۶۰-۱۰۰ bpm | 🌡️ دمای بدن: ۳۶.۱-۳۷.۲ درجه سانتی‌گراد | 🩸 فشار خون: ۹۰/۶۰ تا ۱۴۰/۹۰ mmHg | 🫁 تنفس: ۱۲-۲۰呼吸/دقیقه | 💙 SpO2: ۹۵-۱۰۰٪ | 💧 سطح درد: ۰ (بدون درد)"},
+  {q:"نکات NCLEX",a:"نکات مهم برای موفقیت در NCLEX: ۱) اول ایمنی بیمار را تضمین کنید. ۲) همیشه قبل از مداخله، ارزیابی کنید. ۳) پاسخ «همیشه» یا «هرگز» معمولاً غلط است. ۴) به دنبال بهترین و اولین اقدام بگردید. ۵) تفکر منطقی مهم‌تر از حفظ کردن است. 📝"},
+  {q:"مراقبت از بیمار دیابتی",a:"مراقبت از بیمار دیابتی شامل: ۱) کنترل منظم قند خون. ۲) تزریق صحیح انسولین (تکنیک روتایشن). ۳) مراقبت از پا (بررسی روزانه). ۴) آموزش رژیم غذایی. ۵) شناسایی علائم هایپو/هایپرگلیسمی. ۶) پیگیری HbA1c هر ۳ ماه. ۷) واکسیناسیون آنفلوانزا و پنوموکوک. 🩸"},
+  {q:"تکنیک‌های مصاحبه بالینی",a:"تکنیک‌های مهم مصاحبه بالینی: ۱) شروع با سوالات باز (توضیح دهید...). ۲) گوش دادن فعال و همدلی. ۳) تکرار و خلاصه‌سازی. ۴) سوالات مشخص در صورت لزوم. ۵) توجه به زبان بدن. ۶) حفظ حریم خصوصی. ۷) ثبت دقیق اطلاعات. 🩺"},
+  {q:"انواع درد",a:"انواع درد: ۱) درد حاد: ناگهانی، کوتاه‌مدت، علت مشخص (جراحی). ۲) درد مزمن: بیش از ۶ ماه، ممکن است بدون علت مشخص. ۳) درد نوروپاتیک: آسیب عصبی (دیابت، زونا). ۴) درد سوماتیک: بافتی/ارگانیک. ۵) درد روان‌زاد: عاطفی/روانی. ۶) درد رادیکولار: فشار بر ریشه عصب. 😣"},
+  {q:"مراقبت از بیمار بعد از جراحی",a:"مراقبت‌های پس از جراحی: ۱) پایش علائم حیاتی هر ۱۵ دقیقه (اول ۲ ساعت). ۲) کنترل درد (PCS). ۳) جلوگیری از آمبولی (تحرک زودرس، جوراب فشرده). ۴) مراقبت زخم و پانسمان. ۵) بازگشت عملکرد روده و مثانه. ۶) آموزش مراقبت در منزل. ۷) پایش خونریزی. 🏥"},
+  {q:"انواع لوله‌گذاری",a:"انواع لوله‌گذاری: ۱) NG (-between nose to stomach): تغذیه یا تخلیه معده. ۲) Foley: ادراری، ۱۲-۱۴ Fr. ۳) IV Cannula: تزریق مایعات و دارو. ۴) ET (Endotracheal): تنفس مکانیکی. ۵) Chest Tube: تخلیه هوا یا مایع از فضای پلورال. ۶) JP Drain: تخلیه ترشحات زخم. 🔧"},
+  {q:"سمیت دیگوکسین",a:"علائم سمیت دیگوکسین: ۱) تهوع و استفراغ. ۲) تاری دید (دید زرد/سبز). ۳) تاکی‌کاردی دهلیزی (بیگمینی). ۴) افسردگی ST در ECG. ۵) آریتمی‌های مختلف. درمان: فابریت دیگوکسین آنتی‌بادی و کنترل K+ خون. پایش: ضربان قلب قبل از تجویز و سطح سرمی. ⚠️"},
+  {q:"اقدامات اولیه CPR",a:"CPR بزرگسالان: ۱) تأیید پاسخ‌دهی و صدا زدن کمک. ۲) بررسی تنفس (۵-۱۰ ثانیه). ۳) شروع فشردن سینه (عمق ۵-۶ سانتی‌متر، سرعت ۱۰۰-۱۲۰/دقیقه). ۴) نسبت فشردن: تنفس = ۳۰:۲. ۵) استفاده از AED در اولین فرصت. ۶) تا رسیدن اورژانس ادامه دهید. 🚑"},
+  {q:"پرستاری اورژانس شوک",a:"اقدامات پرستاری در شوک: ۱) بالا بردن پاها (ترندلنبرگ). ۲) IV با سوزن بزرگ (۱۸G). ۳) تزریق مایعات کریستالوئیدی. ۴) پایش علائم حیاتی مداوم. ۵) اکسیژن با ماسک. ۶) کنترل خونریزی. ۷) گرم نگه‌داشتن بیمار. ۸) ثبت I&O. ۹) آمادگی برای انتقال به ICU. 🚨"},
+  {q:"انواع زخم",a:"انواع زخم: ۱) حاد: بریدگی، سوختگی، جراحی. ۲) مزمن: فشاری (زخم بستر)، واریسی، دیابتی. ۳) بر اساس عمق: سطحی (اپیدرمیس)، جزئی (درمیس)، کامل (زیرجلدی). ۴) باکتریایی vs استریل. ۵) فاز التیام: التهاب، تکثیر، بازسازی. مراقبت: تمیز کردن، پانسمان مناسب، تغذیه کافی. 🩹"},
+  {q:"نکات پرستاری آنتی‌کواگولان",a:"نکات مهم آنتی‌کواگولان: ۱) وارفارین: INR هدف ۲-۳، اجتناب از سبزیجات سبز. ۲) هپارین: aPTT هدف ۱.۵-۲.۵ برابر نرمال. ۳) کنترل علائم خونریزی (ادرار قرمز، مدفوع سیاه). ۴) اجتناب از ورزش‌های تماسی. ۵) اطلاع‌رسانی به دندانپزشک. ۶) نالوکسان در دسترس. ⚕️"},
+  {q:"مراقبت از بیمار با لوله NG",a:"مراقبت لوله NG: ۱) بررسی موقعیت: aspirate محتوای معده (pH < 5.5). ۲) بالا بردن سر تخت ۳۰-۴۵ درجه. ۳) شستشو با آب ولرم قبل و بعد از تغذیه. ۴) ثبت حجم تخلیه. ۵) مراقبت بینی و دهان. ۶) جلوگیری از پیچ‌خوردگی لوله. ۷) آموزش بیمار. 🍽️"},
+  {q:"تغذیه بیمار بستری",a:"اصول تغذیه بیمار بستری: ۱) بررسی رژیم غذایی تجویزی. ۲) آلرژی‌های غذایی. ۳) محاسبه کالری و پروتئین مورد نیاز. ۴) مایعات: ۳۰ ml/kg/روز. ۵) پایش وزن روزانه. ۶) ثبت I&O. ۷) آموزش بیمار درباره رژیم. ۸) مراقبت از نتایج آزمایشگاهی (آلبومین، پره‌آلبومین). 🥗"},
+  {q:"پرستاری بیمار سکته مغزی",a:"مراقبت از بیمار سکته مغزی: ۱) پایش علائم نورولوژیک (GCS). ۲) بالا بردن سر تخت ۳۰ درجه. ۳) پایش فشار خون. ۴) توان‌بخشی زودرس. ۵) جلوگیری از آسپیراسیون (ضخیم کردن مایعات). ۶) پیشگیری از زخم فشاری. ۷) حمایت روانی. ۸) آموزش خانواده. 🧠"},
+  {q:"مراقبت از زخم فشاری",a:"مراحل و مراقبت زخم فشاری: مرحله ۱: قرمزی پوست سالم. مرحله ۲: تاول یا زخم سطحی. مرحله ۳: زخم عمیق (زیرجلدی). مرحله ۴: آسیت استخوان/ماهیچه. مراقبت: چرخش هر ۲ ساعت، پانسمان مرطوب، تغذیه کافی، کنترل رطوبت، استفاده از تشک ضد زخم. 🛏️"},
+  {q:"تزریق خون",a:"مراحل تزریق خون: ۱) تأیید هویت بیمار (۲ نفر). ۲) تطبیق گروه خونی و کراس‌چک. ۳) ثبت شماره خون و تاریخ. ۴) شروع آهسته (۲ ml/min اول ۱۵ دقیقه). ۵) پایش علائم حیاتی هر ۱۵ دقیقه. ۶) آمادگی برای واکنش ترانسفیوژن (اپی‌نفرین). ۷) ثبت حجم و پاسخ. 🩸"},
+  {q:"پرستاری آسم",a:"مراقبت بیمار مبتلا به آسم: ۱) آموزش اسپیرومتری. ۲) تکنیک صحیح اینهالر (شستشوی دهان بعد از استروئید). ۳) شناسایی محرک‌ها (آلرژن‌ها). ۴) طرح اقدامات اورژانسی. ۵) پایش عملکرد ریه (PEFR). ۶) آموزش اجتناب از دود سیگار. ۷) واکسیناسیون آنفلوانزا. 🌬️"},
+  {q:"پرستاری نارسایی قلبی",a:"مراقبت نارسایی قلبی: ۱) محدودیت مایعات (۱.۵-۲ لیتر/روز). ۲) محدودیت سدیم (< ۲ g/روز). ۳) وزن روزانه (افزایش > ۱ kg/روز = احتباس). ۴) بالا بردن سر تخت. ۵) پایش I&O. ۶) پایش وزن و ادم. ۷) داروها: دیورتیک، ACE، بتا بلاکر. 💓"},
+  {q:"انواع بیهوشی",a:"انو عمومی بیهوشی: ۱) عمومی: بیهوشی کامل با انتوباسیون. ۲) نیمه‌بیهوشی: آرام‌بخش وریدی. ۳) موضعی: بی‌حسی موضعی. ۴) اپیدورال: بی‌حسی ناحیه‌ای. ۵) اسپاینال: مشابه اپیدورال. مراقبت قبل: ناشتایی ۸ ساعت. مراقبت بعد: پایش هوشیاری، تنفس، درد، تهوع، حرکت اندام‌ها. 💉"},
+  {q:"پرستاری دیالیز",a:"مراقبت بیمار دیالیز: ۱) قبل از دیالیز: وزن، فشار، تب. ۲) حین دیالیز: پایش فشار هر ۳۰ دقیقه. ۳) مراقبت از فیستول عروقی (نبض، هوش). ۴) محدودیت پتاسیم و فسفر در رژیم. ۵) بعد از دیالیز: فشار خون، آموزش. ۶) کنترل کم‌خونی (اریthropoietin). 💧"},
+  {q:"مراقبت از بیمار روانی",a:"اصول مراقبت بیمار روانی: ۱) برقراری ارتباط امن و اعتماد. ۲) گوش دادن بدون قضاوت. ۳) حفظ حریم خصوصی. ۴) ایمنی محیط (حذف اشیای خطرناک). ۵) ثبت رفتارها. ۶) دارودرمانی و پایش عوارض. ۷) مشارکت خانواده. ۸) آموزش تشخیص علائم بحران. 🧠"},
+  {q:"پرستاری درد",a:"مدیریت درد پرستاری: ۱) ارزیابی درد (محل، شدت ۰-۱۰، کیفیت). ۲) دارودرمانی: استامینوفن ← NSAID ← اوپیوئید. ۳) روش‌های غیردارویی: یخ، گرما، ماساژ، آرام‌سازی. ۴) آموزش بیمار. ۵) پایش اثر دارو. ۶) ملاحظات ویژه در سالمندان و کودکان. 😌"},
+  {q:"پرستاری زایمان",a:"مراقبت مادر بعد از زایمان: ۱) پایش خونریزی (لومینیا). ۲) تون رحمی (ماساژ رحم). ۳) پایش فشار خون. ۴) بررسی پرینه (ادرار اول). ۵) شیردهی و وصل نوزاد. ۶) آموزش مراقبت نوزاد. ۷) غربالگری افسردگی پس از زایمان. ۸) ضدانعقاد پیشگیرانه. 👶"},
+  {q:"پرستاری کلیوی",a:"مراقبت بیمار کلیوی: ۱) محدودیت مایعات بر اساس I&O. ۲) رژیم کم‌پتاسیم و کم‌سدیم. ۳) پایش وزن روزانه. ۴) کنترل فشار خون. ۵) پایش آزمایشگاهی (BUN، کراتینین، الکترولیت). ۶) مراقبت پوست (خارش). ۷) آموزش داروها. 🫘"},
+  {q:"پرستاری سوختگی",a:"مراقبت سوختگی: ۱) محاسبه مساحت سوختگی (قانون نُه‌ها). ۲) جایگزینی مایعات (فرمول پارکلند). ۳) درد: مورفین IV. ۴) پانسمان: سیلور سولفادیازین. ۵) جلوگیری از عفونت. ۶) تغذیه پروتئینی بالا. ۷) توان‌بخشی. ۸) حمایت روانی. 🔥"},
+  {q:"پرستاری اورژانس",a:"اقدامات اولیه اورژانسی: ۱) ABCDE: راه هوایی، تنفس، گردش خون، نورولوژیک، محیط. ۲) CPR در صورت ایست قلبی. ۳) IV با سوزن بزرگ. ۴) اکسیژن. ۵) مانیتورینگ مداوم. ۶) ثبت زمان وقوع. ۷) آمادگی برای احیا. ۸) اطلاع‌رسانی به تیم. 🚑"},
+  {q:"پرستاری اطفال",a:"نکات مهم پرستاری اطفال: ۱) محاسبه دوز دارو بر اساس وزن. ۲) محاسبه مایعات: ۱۰۰ ml/kg اول ۱۰ kg + ۵۰ ml/kg بعدی. ۳) پایش رشد (قد، وزن، دور سر). ۴) واکسیناسیون طبق برنامه. ۵) آموزش والدین. ۶) بازی درمانی. ۷) پیشگیری از سوءتغذیه. 👶"},
+  {q:"پرستاری سالمندان",a:"ویژگی‌های مراقبت سالمندان: ۱) پیشگیری از سقوط (زنگ خطر، نور کافی). ۲) پیشگیری از زخم فشاری. ۳) مدیریت درد مزمن. ۴) آموزش دارو (تعداد زیاد). ۵) تغذیه مناسب. ۶) فعالیت جسمانی مناسب. ۷) سلامت روان و اجتماعی. ۸) پیشگیری از پوکی استخوان. 👴"},
+  {q:"پرستاری عفونت‌های بیمارستانی",a:"جلوگیری از عفونت بیمارستانی: ۱) شستشوی صحیح دست‌ها (۲۰ ثانیه). ۲) تکنیک استریل. ۳) مراقبت از لوله‌ها. ۴) پانسمان مناسب. ۵) آنتی‌بیوتیک مناسب. ۶) آموزش بیمار. ۷) گزارش عفونت. ۸) واکسیناسیون کارکنان. 🧤"},
+  {q:"پرستاری مغز و اعصاب",a:"مراقبت نورولوژیک: ۱) پایش GCS هر ساعت. ۲) پایش مردمک‌ها. ۳) بالا بردن سر تخت ۳۰ درجه. ۴) کنترل تشنج. ۵) پیشگیری از آسپیراسیون. ۶) فیزیوتراپی زودرس. ۷) آموزش خانواده. ۸) ثبت علائم نورولوژیک. 🧠"},
+  {q:"پرستاری ایمنی دارو",a:"اصول ۵ درست دارو: ۱) بیمار درست. ۲) دارو درست. ۳) دوز درست. ۴) مسیر درست. ۵) زمان درست. نکات: خواندن برچسب ۳ بار، تأیید با ۲ نفر، کنترل تاریخ انقضا، عدم ترکیب در یک سرنگ، ثبت بلافاصله. 💊"},
+  {q:"پرستاری ریه",a:"مراقبت تنفسی: ۱) پایش SpO2 و ABG. ۲) فیزیوتراپی ریه (سکوبیت، تکان دادن). ۳) آموزش تنفس عمیق و سرفه. ۴) اکسیژن درمانی. ۵) نبولایزر. ۶) مراقبت راه هوایی مصنوعی. ۷) جلوگیری از پنومونی. ۸) پوزیشن‌بندی مناسب. 🫁"},
+  {q:"پرستاری تغذیه",a:"تغذیه بالینی: ۱) محاسبه BMI. ۲) کالری مورد نیاز: ۲۵-۳۰ kcal/kg/روز. ۳) پروتئین: ۱.۲-۱.۵ g/kg/روز. ۴) مایعات: ۳۰ ml/kg/روز. ۵) رژیم‌ها: NPO، نرم، معمولی، دیابتی، کم‌نمک. ۶) نشانه‌های سوءتغذیه. ۷) مکمل‌ها: آهن، کلسیم، ویتامین D. 🥗"}
+];
+
+const dailyNclexQs = [
+  "سوال: کدام علامت نشان‌دهنده هیپوکالمی است؟ پاسخ: ضعف عضلانی و آریتمی",
+  "سوال: اولین اقدام در CPR چیست؟ پاسخ: تأیید پاسخ‌دهی و صدا زدن کمک",
+  "سوال: علت اصلی زخم فشاری چیست؟ پاسخ: فشار مداوم بر بافت",
+  "سوال: نشانه‌های شوک هموراژیک شامل چه مواردی است؟ پاسخ: تاکی‌کاردی، افت فشار",
+  "سوال: کدام دارو با مصرف شیر تداخل دارد؟ پاسخ: تتراسایکلین",
+  "سوال: محل صحیح تزریق انسولین کجاست؟ پاسخ: زیرجلدی شکم، ران، بازو",
+  "سوال: علت بیهوشی اسپاینال چیست؟ پاسخ: بی‌حسی ناحیه‌ای از کمر به پایین",
+  "سوال: نشانه آمبولی ریوی شامل چه مواردی است؟ پاسخ: درد سینه ناگهانی، تنفس سریع",
+  "سوال: هدف INR در مصرف وارفارین چقدر است؟ پاسخ: ۲ تا ۳",
+  "سوال: علت استفاده جوراب فشاری چیست؟ پاسخ: پیشگیری از DVT"
+];
+
+const dailyTerms = [
+  {term:"Hypoglycemia",fa:"هیپوگلیسمی",desc:"قند خون کمتر از ۷۰ mg/dL. علائم: لرز، تعریق، گرسنگی، سرگیجه."},
+  {term:"Tachycardia",fa:"تاکی‌کاردی",desc:"ضربان قلب بیش از ۱۰۰ bpm. ممکن است نشانه تب، درد، یا از دست دادن خون باشد."},
+  {term:"Dyspnea",fa:"دیسپنه",desc:"تنفس دشوار یا تنگی نفس. علت: مشکلات قلبی، ریوی یا آنمی."},
+  {term:"Bradycardia",fa:"برادی‌کاردی",desc:"ضربان قلب کمتر از ۶۰ bpm. ممکن است طبیعی در ورزشکاران باشد."},
+  {term:"Edema",fa:"ادم",desc:"تجمع غیرطبیعی مایع در بافت‌ها. انواع: عمومی، موضعی، آنژیوادم."},
+  {term:"Nausea",fa:"تهوع",desc:"احساس ناراحتی معده با تمایل به استفراغ. علل: دارو، حاملگی، عفونت."},
+  {term:"Tetany",fa:"تتانی",desc:"اسپاسم عضلانی دردناک. علت: هیپوکلسیمی، هیپومنیزیمی."},
+  {term:"Pallor",fa:"پالرور",desc:"رنگ پریدگی پوست. علت: کم‌خونی، شوک، از دست دادن خون."},
+  {term:"Paresthesia",fa:"پارستزی",desc:"بی‌حسی یا گزگز. علت: آسیب عصبی، کمبود ویتامین B12."},
+  {term:"Pyrexia",fa:"پیرکسی",desc:"تب. دمای بدن بالای ۳۷.۵ درجه سانتی‌گراد."}
+];
+
+const weeklySchedule = [
+  [{subject:"pharma",time:"09:00-10:30",title:"داروسازی"},{subject:"nclex",time:"14:00-15:00",title:"تمرین NCLEX"}],
+  [{subject:"anat",time:"08:00-09:30",title:"آناتومی"},{subject:"medsurg",time:"11:00-12:30",title:"مید-سورج"}],
+  [{subject:"patho",time:"09:00-10:00",title:"پاتوفیزیولوژی"},{subject:"pharma",time:"13:00-14:30",title:"داروسازی"}],
+  [{subject:"nclex",time:"10:00-11:00",title:"تمرین NCLEX"},{subject:"anat",time:"14:00-15:30",title:"آناتومی"}],
+  [{subject:"medsurg",time:"09:00-10:30",title:"مید-سورج"},{subject:"patho",time:"11:00-12:00",title:"پاتوفیزیولوژی"}],
+  [{subject:"nclex",time:"10:00-12:00",title:"مرور هفتگی"}],
+  []
+];
+
+const weekDays = ["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه","جمعه"];
+
+const weeklyGoalsData = [
+  {text:"تکمیل ۲۰ فلش کارت",done:true},
+  {text:"حل ۱۰ سوال NCLEX",done:true},
+  {text:"مرور فصل داروسازی قلبی",done:false},
+  {text:"نوشتن ۳ طرح مراقبت",done:false},
+  {text:"مطالعه ۲ ساعت پاتوفیزیولوژی",done:false}
+];
+
+const resourcesData = [
+  {title:"کانال پرستاری سارا حسینی",desc:"ویدیوهای آموزشی پرستاری به فارسی",url:"https://youtube.com/@sarahosseini",icon:"📺"},
+  {title:"NCLEX RN Review",desc:"مرور سوالات NCLEX با پاسخ تشریحی",url:"https://www.nclex.com",icon:"📝"},
+  {title:"Osmosis",desc:"ویدیوهای آموزشی پزشکی و پرستاری",url:"https://www.osmosis.org",icon:"🧠"},
+  {title:"Nursing.com",desc:"منابع کامل آمادگی NCLEX",url:"https://www.nursing.com",icon:"🏥"},
+  {title:"Medline Plus",desc:"اطلاعات سلامت معتبر",url:"https://medlineplus.gov",icon:"📋"},
+  {title:"Epidemiology of Iran",desc:"آمار و اطلاعات بهداشتی ایران",url:"https://behdasht.gov.ir",icon:"📊"}
+];
+
+const studyTipsData = [
+  {title:"تکنیک پومودورو",desc:"۲۵ دقیقه مطالعه متمرکز + ۵ دقیقه استراحت. بعد از ۴ دوره، ۱۵-۳۰ دقیقه استراحت بلندتر."},
+  {title:"یادگیری فعال",desc:"به جای خواندن منفعل، سعی کنید مطالب را با کلمات خودتان توضیح دهید. تدریس به دیگران بهترین روش یادگیری است."},
+  {title:"تکرار فاصله‌دار",desc:"فلش کارت‌ها را در فواصل زمانی منظم مرور کنید. اول ۱ روز، بعد ۳ روز، ۷ روز، ۱۴ روز و ۳۰ روز."},
+  {title:"تغذیه مناسب",desc:"مغز شما ۲۰٪ انرژی بدن را مصرف می‌کند. ماهی، آجیل، میوه و سبزیجات تازه بخورید."},
+  {title:"خواب کافی",desc:"خواب ۷-۸ ساعت برای تثبیت حافظه ضروری است. یادگیری در خواب اتفاق نمی‌افتد!"},
+  {title:"ورزش منظم",desc:"۳۰ دقیقه ورزش سبک روزانه جریان خون مغز را افزایش و توانایی یادگیری را بهبود می‌دهد."}
+];
+
+const emergencyData = [
+  {icon:"🚑",name:"اورژانس",num:"۱۱۵"},
+  {icon:"🔥",name:"آتش‌نشانی",num:"۱۲۵"},
+  {icon:"🚔",name:"پلیس",num:"۱۱۰"},
+  {icon:"🆘",name:"اورژانس اجتماعی",num:"۱۲۳"},
+  {icon:"📞",name:"هلال احمر",num:"۱۱۲"},
+  {icon:"⚕️",name:"مشاوره بهداشت",num:"۱۹۰"}
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   JAVASCRIPT
+   ═══════════════════════════════════════════════════════════════ */
+
+// ─── NAVIGATION ───
+function showPage(pageId, navItem) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  if (navItem) navItem.classList.add('active');
+  // Close sidebar on mobile
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+
+// ─── MODAL ───
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+// ─── DASHBOARD ───
+function initDashboard() {
+  const dayIndex = new Date().getDate() % dailyNclexQs.length;
+  document.getElementById('dailyNclex').innerHTML = dailyNclexQs[dayIndex];
+
+  const termIdx = new Date().getDate() % dailyTerms.length;
+  const t = dailyTerms[termIdx];
+  document.getElementById('dailyTerm').innerHTML =
+    `<strong style="color:var(--accent-light)">${t.fa}</strong> (${t.term})<br>${t.desc}`;
+}
+
+// ─── FLASHCARDS ───
+let fcStudyMode = false;
+let fcCurrentIdx = 0;
+let fcFilteredCards = [...flashcardsData];
+let fcCategory = 'all';
+
+function renderFlashcardCategories() {
+  const cats = ['all', ...new Set(flashcardsData.map(c => c.category))];
+  const labels = {all:'همه', 'داروسازی':'💊 داروسازی', 'پرستاری اورژانس':'🚑 اورژانس', 'آناتومی':'🦴 آناتومی', 'پاتوفیزیولوژی':'🔬 پاتوفیزو', 'مید-سورج':'🏥 مید-سورج', 'مراقبت‌های ویژه':'🫀 ویژه'};
+  const el = document.getElementById('fcCategoryFilter');
+  el.innerHTML = cats.map(c => `<div class="tab ${c===fcCategory?'active':''}" onclick="filterFlashcards('${c}',this)">${labels[c]||c}</div>`).join('');
+}
+
+function filterFlashcards(cat, el) {
+  fcCategory = cat;
+  document.querySelectorAll('#fcCategoryFilter .tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  fcFilteredCards = cat === 'all' ? [...flashcardsData] : flashcardsData.filter(c => c.category === cat);
+  renderFlashcardList();
+}
+
+function renderFlashcardList() {
+  const el = document.getElementById('flashcardList');
+  el.innerHTML = fcFilteredCards.map(c => `
+    <div class="glass-card mb-12" style="padding:14px !important;border-right:3px solid var(--accent)">
+      <div class="flex justify-between items-center">
+        <div>
+          <span class="badge badge-purple">${c.category}</span>
+          <div style="margin-top:6px;font-weight:600;font-size:0.9rem">${c.front}</div>
+        </div>
+        <div style="text-align:left;font-size:0.75rem;color:var(--text-muted)">
+          بررسی: ${c.reviewCount} بار | دقت: ${c.reviewCount ? Math.round(c.correct/c.reviewCount*100) : 0}%
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function startStudyMode() {
+  fcStudyMode = true;
+  fcCurrentIdx = 0;
+  document.getElementById('flashcardStudyArea').classList.remove('hidden');
+  showCurrentFlashcard();
+}
+
+function showCurrentFlashcard() {
+  if (fcCurrentIdx >= fcFilteredCards.length) {
+    document.getElementById('flashcardStudyArea').classList.add('hidden');
+    fcStudyMode = false;
+    alert('🎉 تمام فلش کارت‌ها مرور شد!');
+    updateFcStats();
+    return;
+  }
+  const c = fcFilteredCards[fcCurrentIdx];
+  document.getElementById('fcFront').textContent = c.front;
+  document.getElementById('fcBack').textContent = c.back;
+  document.getElementById('fcCategory').textContent = c.category;
+  document.getElementById('fcProgress').textContent = `${fcCurrentIdx + 1} از ${fcFilteredCards.length}`;
+  document.getElementById('currentFlashcard').classList.remove('flipped');
+}
+
+function rateCard(rating) {
+  const c = fcFilteredCards[fcCurrentIdx];
+  c.reviewCount++;
+  if (rating === 'easy' || rating === 'good') c.correct++;
+  fcCurrentIdx++;
+  showCurrentFlashcard();
+}
+
+function updateFcStats() {
+  let mastered = 0, total = flashcardsData.length, totalCorrect = 0, totalReviews = 0;
+  flashcardsData.forEach(c => {
+    totalCorrect += c.correct;
+    totalReviews += c.reviewCount;
+    if (c.reviewCount >= 3 && (c.correct / c.reviewCount) >= 0.8) mastered++;
+  });
+  document.getElementById('fcTotal').textContent = total;
+  document.getElementById('fcMastered').textContent = mastered;
+  document.getElementById('fcAccuracy').textContent = totalReviews ? Math.round(totalCorrect / totalReviews * 100) + '%' : '0%';
+}
+
+function addFlashcard() {
+  const front = document.getElementById('newFcFront').value.trim();
+  const back = document.getElementById('newFcBack').value.trim();
+  const cat = document.getElementById('newFcCategory').value;
+  if (!front || !back) return alert('لطفاً فیلدها را پر کنید');
+  flashcardsData.push({id: Date.now(), front, back, category: cat, reviewCount: 0, correct: 0});
+  renderFlashcardCategories();
+  filterFlashcards(fcCategory);
+  updateFcStats();
+  closeModal('addFlashcardModal');
+  document.getElementById('newFcFront').value = '';
+  document.getElementById('newFcBack').value = '';
+}
+
+// ─── SCHEDULE ───
+let schedule = JSON.parse(JSON.stringify(weeklySchedule));
+
+function renderWeekGrid() {
+  const today = new Date().getDay();
+  const persianDays = [5,6,0,1,2,3,4]; // map JS day to grid position
+  const todayIdx = persianDays[today];
+  const now = new Date();
+
+  document.getElementById('weekGrid').innerHTML = weekDays.map((d, i) => {
+    const sessions = schedule[i] || [];
+    const todayClass = i === todayIdx ? ' today' : '';
+    return `<div class="week-day${todayClass}">
+      <div class="week-day-name">${d}</div>
+      <div class="week-day-num">${(now.getDate() - todayIdx + i + 7) % 31 || 31}</div>
+      ${sessions.map(s => `<div class="session-block ${s.subject}" title="${s.time}">${s.time}<br>${s.title}</div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function renderGoals() {
+  document.getElementById('weeklyGoals').innerHTML = weeklyGoalsData.map((g, i) => `
+    <li class="${g.done ? 'done' : ''}">
+      <span class="check" onclick="toggleGoal(${i})">${g.done ? '✓' : ''}</span>
+      <span>${g.text}</span>
+    </li>
+  `).join('');
+}
+
+function toggleGoal(i) {
+  weeklyGoalsData[i].done = !weeklyGoalsData[i].done;
+  renderGoals();
+}
+
+function addGoal() {
+  const input = document.getElementById('newGoalInput');
+  const text = input.value.trim();
+  if (!text) return;
+  weeklyGoalsData.push({text, done: false});
+  renderGoals();
+  input.value = '';
+}
+
+function addSession() {
+  const day = parseInt(document.getElementById('sessionDay').value);
+  const time = document.getElementById('sessionTime').value;
+  const subject = document.getElementById('sessionSubject').value;
+  const duration = parseInt(document.getElementById('sessionDuration').value);
+  const endHour = parseInt(time.split(':')[0]) + Math.floor(duration / 60);
+  const endMin = parseInt(time.split(':')[1]) + (duration % 60);
+  const endTime = `${endHour}:${String(endMin).padStart(2,'0')}`;
+  const titles = {pharma:'داروسازی',anat:'آناتومی',medsurg:'مید-سورج',nclex:'تمرین NCLEX',patho:'پاتوفیزیولوژی'};
+  if (!schedule[day]) schedule[day] = [];
+  schedule[day].push({subject, time: `${time}-${endTime}`, title: titles[subject]});
+  renderWeekGrid();
+}
+
+// ─── POMODORO ───
+let pomodoroTime = 25 * 60;
+let pomodoroRunning = false;
+let pomodoroInterval = null;
+let pomodoroIsStudy = true;
+
+function updatePomodoroDisplay() {
+  const min = Math.floor(pomodoroTime / 60);
+  const sec = pomodoroTime % 60;
+  document.getElementById('pomodoroTimer').textContent = `${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function togglePomodoro() {
+  if (pomodoroRunning) {
+    clearInterval(pomodoroInterval);
+    pomodoroRunning = false;
+    document.getElementById('pomodoroStartBtn').innerHTML = '▶️ شروع';
+  } else {
+    pomodoroRunning = true;
+    document.getElementById('pomodoroStartBtn').innerHTML = '⏸️ توقف';
+    pomodoroInterval = setInterval(() => {
+      pomodoroTime--;
+      updatePomodoroDisplay();
+      if (pomodoroTime <= 0) {
+        clearInterval(pomodoroInterval);
+        pomodoroRunning = false;
+        if (pomodoroIsStudy) {
+          alert('⏰ زمان مطالعه تمام شد! ۵ دقیقه استراحت کنید.');
+          pomodoroTime = 5 * 60;
+          pomodoroIsStudy = false;
+          document.getElementById('pomodoroLabel').textContent = 'زمان استراحت';
+        } else {
+          alert('☕ استراحت تمام شد! دوباره شروع کنید.');
+          pomodoroTime = 25 * 60;
+          pomodoroIsStudy = true;
+          document.getElementById('pomodoroLabel').textContent = 'زمان مطالعه';
+        }
+        updatePomodoroDisplay();
+        document.getElementById('pomodoroStartBtn').innerHTML = '▶️ شروع';
+      }
+    }, 1000);
+  }
+}
+
+function resetPomodoro() {
+  clearInterval(pomodoroInterval);
+  pomodoroRunning = false;
+  pomodoroIsStudy = true;
+  pomodoroTime = 25 * 60;
+  updatePomodoroDisplay();
+  document.getElementById('pomodoroStartBtn').innerHTML = '▶️ شروع';
+  document.getElementById('pomodoroLabel').textContent = 'زمان مطالعه';
+}
+
+// ─── CLINICAL ASSISTANT ───
+function showClinicalTab(id, el) {
+  document.querySelectorAll('.clinical-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.clinical-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+function generateSBAR() {
+  const s = document.getElementById('sbarS').value;
+  const b = document.getElementById('sbarB').value;
+  const a = document.getElementById('sbarA').value;
+  const r = document.getElementById('sbarR').value;
+  if (!s && !b && !a && !r) return alert('لطفاً حداقل یک فیلد را پر کنید');
+  const now = new Date().toLocaleString('fa-IR');
+  document.getElementById('sbarText').textContent =
+    `گزارش SBAR - ${now}\n\n📋 وضعیت (Situation):\n${s || '—'}\n\n📋 سابقه (Background):\n${b || '—'}\n\n📋 ارزیابی (Assessment):\n${a || '—'}\n\n📋 پیشنهاد (Recommendation):\n${r || '—'}`;
+  document.getElementById('sbarOutput').classList.remove('hidden');
+}
+
+function clearSBAR() {
+  ['sbarS','sbarB','sbarA','sbarR'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('sbarOutput').classList.add('hidden');
+}
+
+function copySBAR() {
+  navigator.clipboard.writeText(document.getElementById('sbarText').textContent);
+  alert('📋 گزارش کپی شد!');
+}
+
+function generateCarePlan() {
+  const assess = document.getElementById('cpAssess').value;
+  const diag = document.getElementById('cpDiag').value;
+  const plan = document.getElementById('cpPlan').value;
+  const impl = document.getElementById('cpImpl').value;
+  const eval_ = document.getElementById('cpEval').value;
+  document.getElementById('cpText').textContent =
+    `طرح مراقبت پرستاری\n\n📊 ارزیابی:\n${assess || '—'}\n\n🔬 تشخیص پرستاری:\n${diag || '—'}\n\n📝 برنامه‌ریزی:\n${plan || '—'}\n\n⚙️ اجرا:\n${impl || '—'}\n\n✅ ارزیابی:\n${eval_ || '—'}`;
+  document.getElementById('cpOutput').classList.remove('hidden');
+}
+
+function simulatePatient() {
+  const temp = parseFloat(document.getElementById('simTemp').value);
+  const hr = parseInt(document.getElementById('simHR').value);
+  const bp = document.getElementById('simBP').value;
+  const rr = parseInt(document.getElementById('simRR').value);
+  const spo2 = parseInt(document.getElementById('simSpO2').value);
+  const pain = parseInt(document.getElementById('simPain').value);
+  const symptoms = document.getElementById('simSymptoms').value;
+
+  let findings = [];
+  if (temp > 38) findings.push('🔴 تب (Hyperthermia) - بررسی علت عفونت و تجویز تب‌بر');
+  else if (temp < 36) findings.push('🔵 هیپوترمی - گرم نگه‌داشتن بیمار');
+  if (hr > 100) findings.push('🔴 تاکی‌کاردی - پایش قلبی و بررسی علت');
+  else if (hr < 60) findings.push('🔵 برادی‌کاردی - بررسی داروها و عملکرد قلب');
+  if (spo2 < 94) findings.push('🔴 هیپوکسی - اکسیژن درمانی و پایش تنفسی');
+  if (pain > 6) findings.push('🔴 درد شدید - مدیریت درد و ثبت');
+  if (rr > 24) findings.push('🔴 تاکی‌پنه - بررسی علت تنفسی');
+  else if (rr < 12) findings.push('🔵 برادی‌پنه - پایش نزدیک');
+  if (symptoms.includes('تهوع')) findings.push('🟡 تهوع - ضد تهوع و_POSITION');
+  if (symptoms.includes('سرگیجه')) findings.push('🟡 سرگیجه - مراقبت از سقوط');
+  if (symptoms.includes('لرز')) findings.push('🔴 لرز - ممکن است نشانه عفونت باشد');
+  if (findings.length === 0) findings.push('🟢 تمام علائم حیاتی در محدوده طبیعی');
+
+  const [systolic, diastolic] = bp.split('/').map(Number);
+  if (systolic > 140 || diastolic > 90) findings.push('🔴 فشار خون بالا - پایش و دارودرمانی');
+  if (systolic < 90) findings.push('🔴 هیپوتانشن - افزایش مایعات و پایش');
+
+  document.getElementById('simResult').innerHTML =
+    `<strong style="color:var(--info)">📊 خلاصه علائم حیاتی:</strong><br>` +
+    `🌡️ دما: ${temp}°C | 💓 ضربان: ${hr} bpm | 🩸 فشار: ${bp} mmHg | 🫁 تنفس: ${rr}/min | 💙 SpO2: ${spo2}% | 😣 درد: ${pain}/10<br><br>` +
+    `<strong style="color:var(--warning)">🔍 یافته‌های ارزیابی:</strong><br>` +
+    findings.join('<br>') +
+    `<br><br><strong style="color:var(--success)">📋 اقدامات پیشنهادی:</strong><br>` +
+    `• ثبت علائم حیاتی در پرونده<br>` +
+    `• اطلاع‌رسانی به پزشک در صورت نیاز<br>` +
+    `• اجرای مراقبت‌های حمایتی<br>` +
+    `• پایش مجدد در ۳۰ دقیقه`;
+  document.getElementById('simOutput').classList.remove('hidden');
+}
+
+// ─── DRUG REFERENCE ───
+function renderDrugs(drugs) {
+  document.getElementById('drugList').innerHTML = drugs.map(d => `
+    <div class="glass-card drug-card">
+      <h4>${d.name}</h4>
+      <span class="badge badge-purple">${d.class}</span>
+      <div class="drug-info mt-16">
+        <div class="drug-info-item"><div class="label">موارد مصرف</div><div class="value">${d.indication}</div></div>
+        <div class="drug-info-item"><div class="label">دوز</div><div class="value">${d.dose}</div></div>
+        <div class="drug-info-item"><div class="label">عوارض جانبی</div><div class="value">${d.sideEffects}</div></div>
+        <div class="drug-info-item"><div class="label">نکات پرستاری</div><div class="value">${d.nursing}</div></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterDrugs() {
+  const search = document.getElementById('drugSearch').value.toLowerCase();
+  const cat = document.getElementById('drugCategoryFilter').value;
+  let filtered = drugsData;
+  if (search) filtered = filtered.filter(d => d.name.toLowerCase().includes(search) || d.nameEn.toLowerCase().includes(search));
+  if (cat !== 'all') filtered = filtered.filter(d => d.category === cat);
+  renderDrugs(filtered);
+}
+
+// ─── NCLEX PRACTICE ───
+let nclexAnswers = {};
+let nclexFilterCat = 'all';
+
+function renderNclexCategories() {
+  const cats = ['all', ...new Set(nclexData.map(q => q.category))];
+  const labels = {all:'همه', 'قلبی عروقی':'❤️ قلبی', 'اورژانس':'🚑 اورژانس', 'آزمایشگاهی':'🧪 آزمایش', 'تنفسی':'🫁 تنفسی', 'داروسازی':'💊 دارو', 'تغذیه':'🥗 تغذیه', 'اطفال':'👶 اطفال', 'GI':'🫄 GI', 'زخم':'🩹 زخم', 'جراحی':'🔪 جراحی', 'کلیوی':'🫘 کلیوی', 'دیabetes':'🩸 دیابت', 'دیابت':'🩸 دیابت'};
+  document.getElementById('nclexCategoryFilter').innerHTML = cats.map(c => `<div class="tab ${c===nclexFilterCat?'active':''}" onclick="filterNclex('${c}',this)">${labels[c]||c}</div>`).join('');
+}
+
+function filterNclex(cat, el) {
+  nclexFilterCat = cat;
+  document.querySelectorAll('#nclexCategoryFilter .tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderNclexQuestions();
+}
+
+function renderNclexQuestions() {
+  const questions = nclexFilterCat === 'all' ? nclexData : nclexData.filter(q => q.category === nclexFilterCat);
+  const letters = ['A','B','C','D'];
+  document.getElementById('nclexQuestions').innerHTML = questions.map(q => {
+    const answered = nclexAnswers[q.id] !== undefined;
+    const isCorrect = nclexAnswers[q.id] === q.correct;
+    return `<div class="glass-card nclex-question" id="nclex-q-${q.id}">
+      <span class="badge badge-blue">${q.category}</span>
+      <h4 class="mt-16">${q.id}. ${q.question}</h4>
+      <div class="nclex-options">
+        ${q.options.map((opt, i) => {
+          let cls = '';
+          if (answered) {
+            if (i === q.correct) cls = 'correct';
+            else if (i === nclexAnswers[q.id]) cls = 'wrong';
+          }
+          return `<div class="nclex-option ${cls}" onclick="answerNclex(${q.id},${i},${q.correct})" id="opt-${q.id}-${i}">
+            <span class="opt-letter">${letters[i]}</span>
+            <span>${opt}</span>
+          </div>`;
+        }).join('')}
+      </div>
+      <button class="btn btn-secondary btn-sm ${answered?'hidden':''}" id="submitNclex-${q.id}" onclick="submitNclex(${q.id},${q.correct})">ثبت پاسخ</button>
+      <div class="nclex-rationale ${answered?'show':''}" id="rationale-${q.id}">
+        <strong style="color:var(--info)">📝 توضیح:</strong> ${q.rationale}
+      </div>
+    </div>`;
+  }).join('');
+  updateNclexScore();
+}
+
+function answerNclex(qId, optIdx, correct) {
+  if (nclexAnswers[qId] !== undefined) return;
+  document.querySelectorAll(`#nclex-q-${qId} .nclex-option`).forEach(o => o.classList.remove('selected'));
+  document.getElementById(`opt-${qId}-${optIdx}`).classList.add('selected');
+  nclexAnswers[qId + '_selected'] = optIdx;
+}
+
+function submitNclex(qId, correct) {
+  const selected = nclexAnswers[qId + '_selected'];
+  if (selected === undefined) return alert('لطفاً یک گزینه انتخاب کنید');
+  nclexAnswers[qId] = selected;
+  delete nclexAnswers[qId + '_selected'];
+  renderNclexQuestions();
+}
+
+function updateNclexScore() {
+  let answered = 0, correct = 0;
+  nclexData.forEach(q => {
+    if (nclexAnswers[q.id] !== undefined) {
+      answered++;
+      if (nclexAnswers[q.id] === q.correct) correct++;
+    }
+  });
+  document.getElementById('nclexCorrect').textContent = correct;
+  document.getElementById('nclexAnswered').textContent = answered;
+  document.getElementById('nclexScoreDisplay').textContent = answered ? Math.round(correct / answered * 100) + '%' : '0%';
+}
+
+function resetNclex() {
+  nclexAnswers = {};
+  renderNclexQuestions();
+}
+
+// ─── RESOURCES ───
+function renderResources() {
+  document.getElementById('resourcesList').innerHTML = resourcesData.map(r => `
+    <div class="glass-card resource-card">
+      <h4>${r.icon} ${r.title}</h4>
+      <p>${r.desc}</p>
+      <a href="${r.url}" target="_blank">🔗 مشاهده لینک</a>
+    </div>
+  `).join('');
+
+  document.getElementById('studyTips').innerHTML = studyTipsData.map(t => `
+    <div class="glass-card tip-card">
+      <h4>${t.title}</h4>
+      <p>${t.desc}</p>
+    </div>
+  `).join('');
+
+  document.getElementById('emergencyNumbers').innerHTML = emergencyData.map(e => `
+    <div class="emergency-item">
+      <div class="e-icon">${e.icon}</div>
+      <div class="e-name">${e.name}</div>
+      <div class="e-num">${e.num}</div>
+    </div>
+  `).join('');
+}
+
+// ─── CHATBOT ───
+function findChatAnswer(input) {
+  const lower = input.toLowerCase().trim();
+  // Search knowledge base
+  for (const qa of chatKnowledge) {
+    const qLower = qa.q.toLowerCase();
+    // Check for keyword matches
+    const qWords = qLower.split(/\s+/);
+    const iWords = lower.split(/\s+/);
+    let matchCount = 0;
+    for (const w of iWords) {
+      if (w.length > 1 && qWords.some(qw => qw.includes(w) || w.includes(qw))) matchCount++;
+    }
+    if (matchCount >= 1) return qa.a;
+  }
+  // Check flashcards
+  for (const fc of flashcardsData) {
+    if (lower.includes(fc.front.substring(0, 10))) return fc.back;
+  }
+  // Check drugs
+  for (const d of drugsData) {
+    if (lower.includes(d.nameEn.toLowerCase()) || lower.includes(d.name.split('(')[0].trim())) {
+      return `💊 ${d.name}\nدسته: ${d.class}\nموارد مصرف: ${d.indication}\nدوز: ${d.dose}\nعوارض: ${d.sideEffects}\nنکات پرستاری: ${d.nursing}`;
+    }
+  }
+  // Default responses
+  const defaults = [
+    "سوال خوبی پرسیدی! متأسفانه پاسخ دقیق این سوال در پایگاه داده من نیست. پیشنهاد می‌کنم از بخش‌های تخصصی استفاده کنی. 📚",
+    "من تلاش می‌کنم کمکت کنم! لطفاً سوال را دقیق‌تر بپرس یا از دکمه‌های سریع استفاده کن. 🤔",
+    "این موضوع خارج از حوزه تخصصی من است. پیشنهاد می‌کنم از منابع معتبر پرستاری استفاده کنی. 📖",
+    "ممنون از سوالت! برای پاسخ بهتر، لطفاً کلمات کلیدی بیشتری استفاده کن. مثلاً: نام دارو، علت بیماری، یا نوع مراقبت. 🩺"
+  ];
+  return defaults[Math.floor(Math.random() * defaults.length)];
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  addMessage(text, 'user');
+  input.value = '';
+
+  // Show typing indicator
+  document.getElementById('typingIndicator').classList.add('show');
+  document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+
+  setTimeout(() => {
+    document.getElementById('typingIndicator').classList.remove('show');
+    const answer = findChatAnswer(text);
+    addMessage(answer, 'bot');
+  }, 800 + Math.random() * 1200);
+}
+
+function sendQuickQ(q) {
+  document.getElementById('chatInput').value = q;
+  sendChat();
+}
+
+function addMessage(text, type) {
+  const el = document.createElement('div');
+  el.className = 'chat-msg ' + type;
+  el.textContent = text;
+  document.getElementById('chatMessages').appendChild(el);
+  const container = document.getElementById('chatMessages');
+  container.scrollTop = container.scrollHeight;
+}
+
+// ─── INIT ───
+document.addEventListener('DOMContentLoaded', function() {
+  initDashboard();
+  renderFlashcardCategories();
+  filterFlashcards('all');
+  updateFcStats();
+  renderWeekGrid();
+  renderGoals();
+  renderDrugs(drugsData);
+  renderNclexCategories();
+  renderNclexQuestions();
+  renderResources();
+  updatePomodoroDisplay();
+});
+</script>
+</body>
+</html>
