@@ -615,12 +615,12 @@ body {
     <h1 class="page-title">🔗 منابع</h1>
     <p class="page-subtitle">منابع مفید برای مطالعه پرستاری</p>
     <div class="tabs" id="resource-tabs">
-        <div class="tab active" onclick="filterResources('all')">همه</div>
-        <div class="tab" onclick="filterResources('youtube')">🎬 یوتیوب</div>
-        <div class="tab" onclick="filterResources('app')">📱 اپلیکیشن</div>
-        <div class="tab" onclick="filterResources('book')">📖 کتاب</div>
-        <div class="tab" onclick="filterResources('website')">🌐 وبسایت</div>
-        <div class="tab" onclick="filterResources('podcast')">🎧 پادکست</div>
+        <div class="tab active" onclick="filterResources('all', this)">همه</div>
+        <div class="tab" onclick="filterResources('youtube', this)">🎬 یوتیوب</div>
+        <div class="tab" onclick="filterResources('app', this)">📱 اپلیکیشن</div>
+        <div class="tab" onclick="filterResources('book', this)">📖 کتاب</div>
+        <div class="tab" onclick="filterResources('website', this)">🌐 وبسایت</div>
+        <div class="tab" onclick="filterResources('podcast', this)">🎧 پادکست</div>
     </div>
     <div id="resource-list" class="grid grid-3"></div>
     <div class="card" style="margin-top:24px;">
@@ -2469,34 +2469,42 @@ function searchChat() {
 }
 
 // ========== RESOURCES PAGE ==========
+let resourceFilter = 'all';
 function renderResources() {
-    const el = document.getElementById('resources-content');
-    const types = { youtube: 'YouTube', app: 'اپلیکیشن', website: 'وبسایت', book: 'کتاب', podcast: 'پادکست' };
-    el.innerHTML = `
-        <div class="grid grid-2" style="margin-top:20px;">
-            ${RESOURCES_DATA.map(r => `
-                <div class="card" style="cursor:pointer;" onclick="window.open('${r.url}','_blank')">
-                    <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-                        <span style="font-size:28px;">${r.icon}</span>
-                        <div>
-                            <strong>${r.name}</strong>
-                            <span class="badge badge-primary" style="font-size:10px; margin-right:6px;">${types[r.type] || r.type}</span>
-                        </div>
+    const types = { youtube: '🎬 یوتیوب', app: '📱 اپلیکیشن', website: '🌐 وبسایت', book: '📖 کتاب', podcast: '🎧 پادکست' };
+    const filtered = resourceFilter === 'all' ? RESOURCES_DATA : RESOURCES_DATA.filter(r => r.type === resourceFilter);
+    const list = document.getElementById('resource-list');
+    if (list) {
+        list.innerHTML = filtered.map(r => `
+            <div class="card" style="cursor:pointer;" onclick="window.open('${r.url}','_blank')">
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+                    <span style="font-size:28px;">${r.icon}</span>
+                    <div>
+                        <strong>${r.name}</strong>
+                        <div style="font-size:11px; color:var(--primary); margin-top:2px;">${types[r.type] || r.type}</div>
                     </div>
-                    <p style="color:var(--text-muted); font-size:13px;">${r.desc}</p>
                 </div>
-            `).join('')}
-        </div>
-        <div class="card" style="margin-top:24px;">
-            <h3 style="margin-bottom:16px;">💡 نکات مطالعه مؤثر</h3>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-                <div style="padding:12px; background:rgba(108,92,231,0.08); border-radius:10px;"><strong>۱. مرور فاصله‌دار:</strong> هر روز ۱۵ دقیقه Anki تمرین کنید</div>
-                <div style="padding:12px; background:rgba(0,206,201,0.08); border-radius:10px;"><strong>۲. تکنیک Feynman:</strong> مفاهیم را به زبان ساده توضیح دهید</div>
-                <div style="padding:12px; background:rgba(0,184,148,0.08); border-radius:10px;"><strong>۳. تمرین فعال:</strong> سوالات تمرینی حل کنید، نه فقط بخوانید</div>
-                <div style="padding:12px; background:rgba(253,203,110,0.08); border-radius:10px;"><strong>۴. نقشه ذهنی:</strong> برای هر فصل یک نقشه ذهنی بسازید</div>
-                <div style="padding:12px; background:rgba(225,112,85,0.08); border-radius:10px;"><strong>۵. گروه مطالعه:</strong> هفته‌ای یکبار با دوستان تمرین کنید</div>
+                <p style="color:var(--text-muted); font-size:13px;">${r.desc}</p>
             </div>
-        </div>`;
+        `).join('');
+    }
+    const tips = document.getElementById('study-tips');
+    if (tips) {
+        tips.innerHTML = [
+            { title: 'مرور فاصله‌دار', text: 'هر روز ۱۵ دقیقه Anki تمرین کنید — حافظه بلندمدت ساخته می‌شود' },
+            { title: 'تکنیک Feynman', text: 'مفهوم را به زبان ساده توضیح دهید — اگر نتوانستید، یاد نگرفته‌اید' },
+            { title: 'تمرین فعال', text: 'سوالات تمرینی حل کنید، نه فقط بخوانید' },
+            { title: 'نقشه ذهنی', text: 'برای هر فصل یک نقشه ذهنی بسازید' },
+            { title: 'گروه مطالعه', text: 'هفته‌ای یکبار با دوستان تمرین کنید' }
+        ].map(t => `<div style="padding:12px; background:rgba(108,92,231,0.08); border-radius:10px; margin-bottom:8px;"><strong>${t.title}:</strong> ${t.text}</div>`).join('');
+    }
+}
+
+function filterResources(type, el) {
+    resourceFilter = type;
+    document.querySelectorAll('#resource-tabs .tab').forEach(t => t.classList.remove('active'));
+    if (el) el.classList.add('active');
+    renderResources();
 }
 
 // ========== INIT ==========
