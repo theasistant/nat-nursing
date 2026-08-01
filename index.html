@@ -557,11 +557,11 @@ body {
     <h1 class="page-title">🏥 دستیار بالینی</h1>
     <p class="page-subtitle">ابزارهای کاربردی برای محیط بالینی</p>
     <div class="tabs" id="clinical-tabs">
-        <div class="tab active" onclick="switchClinicalTab('sbar')">SBAR</div>
-        <div class="tab" onclick="switchClinicalTab('careplan')">برنامه مراقبتی</div>
-        <div class="tab" onclick="switchClinicalTab('vitals')">علائم حیاتی</div>
-        <div class="tab" onclick="switchClinicalTab('cases')">شبیه‌ساز</div>
-        <div class="tab" onclick="switchClinicalTab('refs')">مرجع سریع</div>
+        <div class="tab active" onclick="switchClinicalTab('sbar', this)">SBAR</div>
+        <div class="tab" onclick="switchClinicalTab('careplan', this)">برنامه مراقبتی</div>
+        <div class="tab" onclick="switchClinicalTab('vitals', this)">علائم حیاتی</div>
+        <div class="tab" onclick="switchClinicalTab('cases', this)">شبیه‌ساز</div>
+        <div class="tab" onclick="switchClinicalTab('refs', this)">مرجع سریع</div>
     </div>
     <div id="clinical-content"></div>
 </div>
@@ -2133,9 +2133,10 @@ function addSession() {
 }
 
 // ========== CLINICAL PAGE ==========
-function switchClinicalTab(tab) {
+function switchClinicalTab(tab, el) {
     document.querySelectorAll('#clinical-tabs .tab').forEach(t => t.classList.remove('active'));
-    event.target.classList.add('active');
+    if (el) el.classList.add('active');
+    else document.querySelector('#clinical-tabs .tab').classList.add('active');
     const c = document.getElementById('clinical-content');
     if (tab === 'sbar') {
         c.innerHTML = `
@@ -2497,6 +2498,19 @@ function renderResources() {
             </div>
         </div>`;
 }
+
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded', () => {
+    createParticles();
+    hideLoading();
+    const page = window.location.hash.replace('#', '') || 'home';
+    navigateTo(page);
+});
+
+window.addEventListener('hashchange', () => {
+    const page = window.location.hash.replace('#', '') || 'home';
+    navigateTo(page);
+});
 
 </script>
 </body>
